@@ -1,0 +1,79 @@
+/**
+ * Trek Navigators Shortcode Styles
+ */
+
+/* ----------------------------------------
+   1. GRID LAYOUT
+   ---------------------------------------- */
+.trek-navigators-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+/* ----------------------------------------
+   2. ARCHIVE GRID LAYOUT
+   ---------------------------------------- */
+.trek-navigators-grid-container {
+    margin-bottom: 40px;
+}
+
+.trek-navigators-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.trek-navigator-grid-item {
+    padding: 15px;
+    width: 33.333%; /* 3 columns by default */
+    box-sizing: border-box;
+}
+
+.trek-navigator-grid-link {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.trek-navigator-grid-link:hover {
+    opacity: 0.9;
+}
+
+.trek-navigator-grid-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.trek-navigator-grid-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* For when no image is available */
+.trek-navigator-no-image {
+    background-color: #e9e9e9;
+    padding-top: 75%; /* Maintain aspect ratio */
+    position: relative;
+}
+
+.trek-navigator-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #777;
+    text-align: center;
+    padding: 15px;
+}
+
+/* No results message */
+.trek-navigators-none {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+    color: #666;
+}

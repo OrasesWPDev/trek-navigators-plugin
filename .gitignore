@@ -1,0 +1,27 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.zip
+
+# Build/dependency directories
+node_modules/
+vendor/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Compiled assets
+*.min.css
+*.min.js
+repomix-output.txt

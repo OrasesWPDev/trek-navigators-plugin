@@ -1,0 +1,225 @@
+{
+  "key": "group_647eb93a85c12",
+  "title": "Trek Navigator Fields",
+  "fields": [
+    {
+      "key": "field_647eb93a94d21",
+      "label": "Header Image",
+      "name": "navigator_header_image",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Upload a large header image for the top of the navigator profile",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png"
+    },
+    {
+      "key": "field_647eb93a94e32",
+      "label": "Navigator Start Date",
+      "name": "navigator_start_date",
+      "aria-label": "",
+      "type": "date_picker",
+      "instructions": "When did this person become a Trek Navigator?",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "display_format": "F j, Y",
+      "return_format": "F j, Y",
+      "first_day": 0
+    },
+    {
+      "key": "field_647eb93a94f43",
+      "label": "Video Embed",
+      "name": "navigator_video_embed",
+      "aria-label": "",
+      "type": "oembed",
+      "instructions": "Enter a YouTube or Vimeo URL",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "width": "",
+      "height": ""
+    },
+    {
+      "key": "field_647eb93a95a54",
+      "label": "Content Sections",
+      "name": "navigator_content_sections",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add content sections with heading and formatted text",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "layout": "block",
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Content Section",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_647eb93a95b65",
+          "label": "Section Title",
+          "name": "section_title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Enter the heading for this section (H4)",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "relevanssi_exclude": 0,
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_647eb93a95a54"
+        },
+        {
+          "key": "field_647eb93a95c76",
+          "label": "Section Content",
+          "name": "section_content",
+          "aria-label": "",
+          "type": "wysiwyg",
+          "instructions": "Add formatted content for this section",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "relevanssi_exclude": 0,
+          "default_value": "",
+          "tabs": "all",
+          "toolbar": "full",
+          "media_upload": 1,
+          "delay": 0,
+          "parent_repeater": "field_647eb93a95a54"
+        }
+      ]
+    },
+    {
+      "key": "field_647eb93a95d87",
+      "label": "Favorite PTCB Badges",
+      "name": "navigator_favorite_badges",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Upload an image for the Favorite PTCB Badges section",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png"
+    },
+    {
+      "key": "field_647eb93a95e98",
+      "label": "Digital Badges URL",
+      "name": "navigator_digital_badges_url",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "Enter the URL to view this navigator's digital badges (opens in new tab)",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "default_value": "",
+      "placeholder": "https://example.com/digital-badges"
+    },
+    {
+      "key": "field_647eb93a95fa9",
+      "label": "More About Image",
+      "name": "navigator_more_about_image",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Upload an image for the More About section",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "relevanssi_exclude": 0,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "trek-navigator"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "Custom fields for Trek Navigators profiles",
+  "show_in_rest": 0
+}
