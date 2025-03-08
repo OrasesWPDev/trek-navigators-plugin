@@ -52,6 +52,9 @@ function trek_navigators_plugin_init() {
     // Load template handling
     require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-templates.php';
 
+	// Load help/documentation
+	require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-help.php';
+
     // Initialize classes
     new Trek_Navigators_Post_Type();
     if (trek_navigators_has_acf()) {
@@ -59,27 +62,13 @@ function trek_navigators_plugin_init() {
     }
     new Trek_Navigators_Shortcodes();
     new Trek_Navigators_Templates();
+	new Trek_Navigators_Help();
 
     // Register assets
     add_action('wp_enqueue_scripts', 'trek_navigators_register_assets');
     add_action('admin_enqueue_scripts', 'trek_navigators_register_admin_assets');
 }
 add_action('plugins_loaded', 'trek_navigators_plugin_init');
-
-/**
- * Add Help/Documentation page for the plugin
- */
-function trek_navigators_add_help_page() {
-    add_submenu_page(
-        'edit.php?post_type=trek-navigator',  // Parent menu slug
-        'Trek Navigators Help',               // Page title
-        'How to Use',                      // Menu title
-        'edit_posts',                      // Capability
-        'trek-navigators-help',               // Menu slug
-        'trek_navigators_help_page_content'   // Callback function
-    );
-}
-add_action('admin_menu', 'trek_navigators_add_help_page', 11);
 
 /**
  * Content for help page will be added later
