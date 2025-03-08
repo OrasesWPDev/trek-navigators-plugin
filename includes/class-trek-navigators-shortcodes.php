@@ -139,11 +139,11 @@ class Trek_Navigators_Shortcodes {
             echo '<div class="' . esc_attr($container_class) . '">';
 
             // Calculate column classes
-            $column_class = 'trek-navigator-column';
+            $column_class = 'trek-navigators-column';
             if ($atts['display_type'] === 'grid') {
-                $column_class .= ' trek-navigator-column-' . $atts['columns'];
+                $column_class .= ' trek-navigators-column-' . $atts['columns'];
             } else {
-                $column_class .= ' trek-navigator-column-full';
+                $column_class .= ' trek-navigators-column-full';
             }
 
             while ($navigators->have_posts()) {
@@ -162,7 +162,7 @@ class Trek_Navigators_Shortcodes {
                 if ($atts['show_date'] && function_exists('get_field')) {
                     $start_date = get_field('navigator_start_date', $id);
                     if ($start_date) {
-                        $date = '<span class="trek-navigator-date">' . esc_html($start_date) . '</span>';
+                        $date = '<span class="trek-navigators-date">' . esc_html($start_date) . '</span>';
                     }
                 }
 
@@ -180,13 +180,13 @@ class Trek_Navigators_Shortcodes {
                 // Get image if needed
                 if ($atts['show_image']) {
                     if (has_post_thumbnail()) {
-                        $image = get_the_post_thumbnail($id, $atts['image_size'], array('class' => 'trek-navigator-image'));
+                        $image = get_the_post_thumbnail($id, $atts['image_size'], array('class' => 'trek-navigators-image'));
                     } elseif (function_exists('get_field')) {
                         // Try to get header image from ACF
                         $header_image = get_field('navigator_header_image', $id);
                         if ($header_image && is_array($header_image)) {
                             $image_src = $header_image['sizes'][$atts['image_size']] ?? $header_image['url'];
-                            $image = '<img src="' . esc_url($image_src) . '" alt="' . esc_attr($title) . '" class="trek-navigator-image" />';
+                            $image = '<img src="' . esc_url($image_src) . '" alt="' . esc_attr($title) . '" class="trek-navigators-image" />';
                         }
                     }
                 }
@@ -196,25 +196,25 @@ class Trek_Navigators_Shortcodes {
                     $badge = get_field('navigator_favorite_badges', $id);
                     if ($badge && is_array($badge)) {
                         $badge_src = $badge['sizes']['thumbnail'] ?? $badge['url'];
-                        $badge_image = '<div class="trek-navigator-badge"><img src="' . esc_url($badge_src) . '" alt="Favorite Badges" /></div>';
+                        $badge_image = '<div class="trek-navigators-badge"><img src="' . esc_url($badge_src) . '" alt="Favorite Badges" /></div>';
                     }
                 }
 
                 // Output navigator item
                 ?>
                 <div class="<?php echo esc_attr($column_class); ?>">
-                    <div class="trek-navigator-item">
+                    <div class="trek-navigators-item">
                         <?php if ($image) : ?>
-                            <div class="trek-navigator-image-container">
+                            <div class="trek-navigators-image-container">
                                 <a href="<?php echo esc_url($permalink); ?>" target="<?php echo esc_attr($atts['link_target']); ?>">
                                     <?php echo $image; ?>
                                 </a>
                             </div>
                         <?php endif; ?>
 
-                        <div class="trek-navigator-content">
+                        <div class="trek-navigators-content">
                             <?php if ($atts['show_title']) : ?>
-                                <h3 class="trek-navigator-title">
+                                <h3 class="trek-navigators-title">
                                     <a href="<?php echo esc_url($permalink); ?>" target="<?php echo esc_attr($atts['link_target']); ?>">
                                         <?php echo esc_html($title); ?>
                                     </a>
@@ -222,13 +222,13 @@ class Trek_Navigators_Shortcodes {
                             <?php endif; ?>
 
                             <?php if ($date) : ?>
-                                <div class="trek-navigator-meta">
+                                <div class="trek-navigators-meta">
                                     <?php echo $date; ?>
                                 </div>
                             <?php endif; ?>
 
                             <?php if ($excerpt) : ?>
-                                <div class="trek-navigator-excerpt">
+                                <div class="trek-navigators-excerpt">
                                     <?php echo wpautop($excerpt); ?>
                                 </div>
                             <?php endif; ?>
@@ -238,8 +238,8 @@ class Trek_Navigators_Shortcodes {
                             <?php endif; ?>
 
                             <?php if ($atts['show_read_more']) : ?>
-                                <div class="trek-navigator-action">
-                                    <a href="<?php echo esc_url($permalink); ?>" class="trek-navigator-link" target="<?php echo esc_attr($atts['link_target']); ?>">
+                                <div class="trek-navigators-action">
+                                    <a href="<?php echo esc_url($permalink); ?>" class="trek-navigators-link" target="<?php echo esc_attr($atts['link_target']); ?>">
                                         <?php echo esc_html($atts['read_more_text']); ?>
                                     </a>
                                 </div>
@@ -342,7 +342,7 @@ class Trek_Navigators_Shortcodes {
         setup_postdata($GLOBALS['post'] = $navigator);
 
         // Container class
-        $container_class = 'trek-navigator-single';
+        $container_class = 'trek-navigators-single';
         if (!empty($atts['class'])) {
             $container_class .= ' ' . esc_attr($atts['class']);
         }
@@ -350,13 +350,13 @@ class Trek_Navigators_Shortcodes {
         // Start output
         ?>
         <div class="<?php echo esc_attr($container_class); ?>">
-            <h2 class="trek-navigator-single-title"><?php the_title(); ?></h2>
+            <h2 class="trek-navigators-single-title"><?php the_title(); ?></h2>
 
             <?php if ($atts['show_date'] && function_exists('get_field')) : ?>
                 <?php $start_date = get_field('navigator_start_date', $navigator->ID); ?>
                 <?php if ($start_date) : ?>
-                    <div class="trek-navigator-single-meta">
-                        <span class="trek-navigator-single-date">
+                    <div class="trek-navigators-single-meta">
+                        <span class="trek-navigators-single-date">
                             <?php echo esc_html($start_date); ?>
                         </span>
                     </div>
@@ -366,7 +366,7 @@ class Trek_Navigators_Shortcodes {
             <?php if ($atts['show_image'] && function_exists('get_field')) : ?>
                 <?php $header_image = get_field('navigator_header_image', $navigator->ID); ?>
                 <?php if ($header_image && is_array($header_image)) : ?>
-                    <div class="trek-navigator-single-image">
+                    <div class="trek-navigators-single-image">
                         <img src="<?php echo esc_url($header_image['url']); ?>" alt="<?php the_title_attribute(); ?>" />
                     </div>
                 <?php endif; ?>
@@ -375,24 +375,24 @@ class Trek_Navigators_Shortcodes {
             <?php if ($atts['show_video'] && function_exists('get_field')) : ?>
                 <?php $video = get_field('navigator_video_embed', $navigator->ID); ?>
                 <?php if ($video) : ?>
-                    <div class="trek-navigator-single-video">
+                    <div class="trek-navigators-single-video">
                         <?php echo $video; ?>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
 
-            <div class="trek-navigator-single-content">
+            <div class="trek-navigators-single-content">
                 <?php the_content(); ?>
             </div>
 
             <?php if ($atts['show_content_sections'] && function_exists('get_field')) : ?>
                 <?php $sections = get_field('navigator_content_sections', $navigator->ID); ?>
                 <?php if ($sections && is_array($sections)) : ?>
-                    <div class="trek-navigator-single-sections">
+                    <div class="trek-navigators-single-sections">
                         <?php foreach ($sections as $section) : ?>
-                            <div class="trek-navigator-single-section">
-                                <h3 class="trek-navigator-section-title"><?php echo esc_html($section['section_title']); ?></h3>
-                                <div class="trek-navigator-section-content">
+                            <div class="trek-navigators-single-section">
+                                <h3 class="trek-navigators-section-title"><?php echo esc_html($section['section_title']); ?></h3>
+                                <div class="trek-navigators-section-content">
                                     <?php echo $section['section_content']; ?>
                                 </div>
                             </div>
@@ -404,9 +404,9 @@ class Trek_Navigators_Shortcodes {
             <?php if ($atts['show_more_about'] && function_exists('get_field')) : ?>
                 <?php $more_about_image = get_field('navigator_more_about_image', $navigator->ID); ?>
                 <?php if ($more_about_image && is_array($more_about_image)) : ?>
-                    <div class="trek-navigator-more-about">
+                    <div class="trek-navigators-more-about">
                         <h3><?php _e('More About', 'trek-navigators'); ?></h3>
-                        <div class="trek-navigator-more-about-image">
+                        <div class="trek-navigators-more-about-image">
                             <img src="<?php echo esc_url($more_about_image['url']); ?>" alt="<?php _e('More About', 'trek-navigators'); ?>" />
                         </div>
                     </div>
@@ -416,7 +416,7 @@ class Trek_Navigators_Shortcodes {
             <?php if ($atts['show_digital_badges_link'] && function_exists('get_field')) : ?>
                 <?php $badges_url = get_field('navigator_digital_badges_url', $navigator->ID); ?>
                 <?php if ($badges_url) : ?>
-                    <div class="trek-navigator-single-badges-link">
+                    <div class="trek-navigators-single-badges-link">
                         <a href="<?php echo esc_url($badges_url); ?>" target="_blank" rel="noopener">
                             <?php _e('View Digital Badges', 'trek-navigators'); ?>
                         </a>

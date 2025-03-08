@@ -8,27 +8,27 @@
 get_header();
 ?>
 
-    <main id="main" class="trek-navigator-archive">
+    <main id="main" class="trek-navigators-archive">
         <div class="container">
             <div class="trek-navigators-grid-container">
                 <?php if (have_posts()) : ?>
                     <div class="trek-navigators-grid">
                         <?php while (have_posts()) : the_post(); ?>
-                            <div class="trek-navigator-grid-item">
-                                <a href="<?php the_permalink(); ?>" class="trek-navigator-grid-link">
+                            <div class="trek-navigators-grid-item">
+                                <a href="<?php the_permalink(); ?>" class="trek-navigators-grid-link">
                                     <?php if (has_post_thumbnail()) : ?>
-                                        <div class="trek-navigator-grid-image-wrapper">
+                                        <div class="trek-navigators-grid-image-wrapper">
                                             <?php
                                             // Use medium size but we'll control dimensions with CSS
                                             the_post_thumbnail('medium', array(
-                                                'class' => 'trek-navigator-grid-image',
+                                                'class' => 'trek-navigators-grid-image',
                                                 'alt' => get_the_title()
                                             ));
                                             ?>
                                         </div>
                                     <?php else : ?>
-                                        <div class="trek-navigator-grid-image-wrapper trek-navigator-no-image">
-                                            <div class="trek-navigator-placeholder">
+                                        <div class="trek-navigators-grid-image-wrapper trek-navigators-no-image">
+                                            <div class="trek-navigators-placeholder">
                                                 <?php echo esc_html(get_the_title()); ?>
                                             </div>
                                         </div>

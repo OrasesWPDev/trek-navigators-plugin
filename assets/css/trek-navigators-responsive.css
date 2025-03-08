@@ -1,0 +1,189 @@
+/**
+ * Trek Navigators Responsive Styles
+ *
+ * Responsive styles for Trek Navigators plugin templates
+ */
+
+/* ----------------------------------------
+   1. GENERAL RESPONSIVE STYLES
+   ---------------------------------------- */
+@media (max-width: 1140px) {
+    .trek-navigators-single .container {
+        max-width: 95%;
+    }
+}
+
+/* ----------------------------------------
+   2. MEDIUM DEVICES (TABLETS, 992px AND DOWN)
+   ---------------------------------------- */
+@media (max-width: 992px) {
+    /* Main layout adjustments */
+    .trek-navigators-two-column-layout {
+        flex-direction: column;
+    }
+
+    .trek-navigators-column-left,
+    .trek-navigators-column-right {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Text size adjustments */
+    .trek-navigators-section-title {
+        font-size: 18px;
+    }
+
+    /* Grid adjustments for archives */
+    .trek-navigators-grid-item {
+        width: 50%; /* 2 columns on medium devices */
+    }
+}
+
+/* ----------------------------------------
+   3. SMALL DEVICES (LANDSCAPE PHONES, 768px AND DOWN)
+   ---------------------------------------- */
+@media (max-width: 768px) {
+    /* Header adjustments */
+    .trek-navigators-header-image {
+        margin-top: 15px;
+    }
+
+    .trek-navigators-start-date-wrapper {
+        text-align: center;
+    }
+
+    /* Content adjustments */
+    .trek-navigators-main-content {
+        padding: 0 10px;
+    }
+
+    /* Button adjustments */
+    .trek-navigators-digital-badges-button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    /* Archive grid adjustments */
+    .trek-navigators-grid {
+        margin: 0 -10px;
+    }
+
+    .trek-navigators-grid-item {
+        padding: 10px;
+    }
+}
+
+/* ----------------------------------------
+   4. EXTRA SMALL DEVICES (PORTRAIT PHONES, 576px AND DOWN)
+   ---------------------------------------- */
+@media (max-width: 576px) {
+    /* Single post adjustments */
+    .trek-navigators-section-title {
+        font-size: 16px;
+    }
+
+    .trek-navigators-section-content {
+        font-size: 14px;
+    }
+
+    /* Grid adjustments */
+    .trek-navigators-grid-item {
+        width: 100%; /* 1 column on small devices */
+    }
+
+    /* Spacing adjustments */
+    .trek-navigators-content-section {
+        margin-bottom: 25px;
+    }
+
+    .trek-navigators-badges-wrapper,
+    .trek-navigators-digital-badges-wrapper,
+    .trek-navigators-more-about-wrapper,
+    .trek-navigators-learn-more-trek-wrapper {
+        margin-bottom: 20px;
+    }
+}
+
+/* ----------------------------------------
+   5. ARCHIVE PAGE SPECIFIC RESPONSIVE STYLES
+   ---------------------------------------- */
+@media (max-width: 992px) {
+    /* Archive page title */
+    .trek-navigators-archive .page-title {
+        font-size: 24px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .trek-navigators-archive .page-title {
+        font-size: 20px;
+    }
+
+    .trek-navigators-none {
+        padding: 15px 10px;
+    }
+}
+
+/* ----------------------------------------
+   6. SINGLE POST SPECIFIC RESPONSIVE STYLES
+   ---------------------------------------- */
+@media (max-width: 992px) {
+    /* Video container */
+    .trek-navigators-video-wrapper {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .trek-navigators-article {
+        margin-bottom: 20px;
+    }
+
+    /* Image adjustments */
+    .trek-navigators-header-image-wrapper {
+        margin-bottom: 15px;
+    }
+
+    /* Content section adjustments */
+    .trek-navigators-section-content ul,
+    .trek-navigators-section-content ol {
+        margin-left: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .trek-navigators-section-content li {
+        margin-bottom: 0.5em;
+    }
+}
+
+/* ----------------------------------------
+   7. PRINT STYLES
+   ---------------------------------------- */
+@media print {
+    .trek-navigators-single {
+        font-size: 12pt;
+    }
+
+    .trek-navigators-navigator-header,
+    .trek-navigators-digital-badges-wrapper,
+    .trek-navigators-learn-more-trek-wrapper,
+    .trek-navigators-video-wrapper {
+        display: none !important;
+    }
+
+    .trek-navigators-two-column-layout {
+        display: block;
+    }
+
+    .trek-navigators-column-left,
+    .trek-navigators-column-right {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .trek-navigators-header-image {
+        max-width: 300px;
+    }
+}

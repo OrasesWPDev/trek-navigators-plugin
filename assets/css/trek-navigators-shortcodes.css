@@ -24,41 +24,41 @@
     margin: 0 -15px;
 }
 
-.trek-navigator-grid-item {
+.trek-navigators-grid-item {
     padding: 15px;
     width: 33.333%; /* 3 columns by default */
     box-sizing: border-box;
 }
 
-.trek-navigator-grid-link {
+.trek-navigators-grid-link {
     display: block;
     transition: opacity 0.3s ease;
 }
 
-.trek-navigator-grid-link:hover {
+.trek-navigators-grid-link:hover {
     opacity: 0.9;
 }
 
-.trek-navigator-grid-image-wrapper {
+.trek-navigators-grid-image-wrapper {
     position: relative;
     overflow: hidden;
     border-radius: 5px;
 }
 
-.trek-navigator-grid-image {
+.trek-navigators-grid-image {
     width: 100%;
     height: auto;
     display: block;
 }
 
 /* For when no image is available */
-.trek-navigator-no-image {
+.trek-navigators-no-image {
     background-color: #e9e9e9;
     padding-top: 75%; /* Maintain aspect ratio */
     position: relative;
 }
 
-.trek-navigator-placeholder {
+.trek-navigators-placeholder {
     position: absolute;
     top: 50%;
     left: 50%;

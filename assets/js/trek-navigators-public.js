@@ -16,10 +16,10 @@
      * Make video embeds responsive
      */
     function initResponsiveVideos() {
-        $('.navigator-video-responsive iframe').each(function() {
+        $('.trek-navigators-video-responsive iframe').each(function() {
             // Add wrapper if not already wrapped
             if (!$(this).parent('.video-wrapper').length) {
-                $(this).wrap('<div class="video-wrapper"></div>');
+                $(this).wrap('<div class="trek-navigators-video-wrapper"></div>');
             }
         });
     }

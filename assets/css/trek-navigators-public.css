@@ -5,22 +5,22 @@
 /* ----------------------------------------
    1. MAIN CONTAINERS
    ---------------------------------------- */
-.trek-navigator-single {
+.trek-navigators-single {
     color: #444;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.trek-navigator-single p,
-.trek-navigator-single li,
-.trek-navigator-single div {
+.trek-navigators-single p,
+.trek-navigators-single li,
+.trek-navigators-single div {
     color: #444; /* Ensure consistent text color throughout */
 }
 
-.trek-navigator-article {
+.trek-navigators-article {
     margin-bottom: 40px;
 }
 
-.trek-navigator-single .container {
+.trek-navigators-single .container {
     max-width: 1140px;
     padding-left: 15px;
     padding-right: 15px;
@@ -30,7 +30,7 @@
 /* ----------------------------------------
    2. HEADER SECTION
    ---------------------------------------- */
-.section-wrapper.navigator-header {
+.trek-navigators-section-wrapper.trek-navigators-navigator-header {
     background-color: rgb(0, 44, 92);
     width: 100%;
     margin-left: 0;
@@ -39,22 +39,22 @@
 }
 
 /* Breadcrumb styling */
-.navigator-header span,
-.navigator-header span a,
-.navigator-header span.breadcrumb_last,
-.navigator-header .breadcrumb-divider {
+.trek-navigators-navigator-header span,
+.trek-navigators-navigator-header span a,
+.trek-navigators-navigator-header span.breadcrumb_last,
+.trek-navigators-navigator-header .trek-navigators-breadcrumb-divider {
     color: white !important;
 }
 
 /* ----------------------------------------
    3. HEADER IMAGE
    ---------------------------------------- */
-.navigator-header-image-wrapper {
+.trek-navigators-header-image-wrapper {
     margin-bottom: 25px;
     text-align: center;
 }
 
-.navigator-header-image {
+.trek-navigators-header-image {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
@@ -63,40 +63,40 @@
 /* ----------------------------------------
    4. START DATE
    ---------------------------------------- */
-.navigator-start-date-wrapper {
+.trek-navigators-start-date-wrapper {
     margin-bottom: 20px;
     font-weight: 600;
     font-size: 18px;
     color: #2c6c3e;
 }
 
-.navigator-start-date {
+.trek-navigators-start-date {
     display: inline-block;
 }
 
 /* ----------------------------------------
    5. MAIN CONTENT
    ---------------------------------------- */
-.navigator-main-content {
+.trek-navigators-main-content {
     margin-bottom: 30px;
     line-height: 1.6;
 }
 
-.navigator-main-content p {
+.trek-navigators-main-content p {
     margin-bottom: 1.2em;
 }
 
 /* ----------------------------------------
    6. TWO COLUMN LAYOUT
    ---------------------------------------- */
-.navigator-two-column-layout {
+.trek-navigators-two-column-layout {
     display: flex;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
 }
 
-.navigator-column {
+.trek-navigators-column {
     padding-right: 15px;
     padding-left: 15px;
     box-sizing: border-box;
@@ -104,12 +104,12 @@
     width: 100%;
 }
 
-.navigator-column-left {
+.trek-navigators-column-left {
     flex: 0 0 66.666%;
     max-width: 66.666%;
 }
 
-.navigator-column-right {
+.trek-navigators-column-right {
     flex: 0 0 33.333%;
     max-width: 33.333%;
 }
@@ -117,18 +117,18 @@
 /* ----------------------------------------
    7. VIDEO SECTION
    ---------------------------------------- */
-.navigator-video-wrapper {
+.trek-navigators-video-wrapper {
     margin-bottom: 30px;
 }
 
-.navigator-video-responsive {
+.trek-navigators-video-responsive {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     overflow: hidden;
 }
 
-.navigator-video-responsive iframe {
+.trek-navigators-video-responsive iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -139,58 +139,58 @@
 /* ----------------------------------------
    8. CONTENT SECTIONS
    ---------------------------------------- */
-.navigator-content-section {
+.trek-navigators-content-section {
     margin-bottom: 40px;
 }
 
-.navigator-section-title {
+.trek-navigators-section-title {
     margin-bottom: 15px;
     font-weight: 700;
     color: #2c6c3e;
     font-size: 20px;
 }
 
-.navigator-section-content {
+.trek-navigators-section-content {
     line-height: 1.6;
     color: #444;
     font-size: 16px;
 }
 
-.navigator-section-content p {
+.trek-navigators-section-content p {
     margin-bottom: 1.2em;
 }
 
-.navigator-section-content ul,
-.navigator-section-content ol {
+.trek-navigators-section-content ul,
+.trek-navigators-section-content ol {
     margin-left: 2rem;
     margin-bottom: 1.8rem;
     padding-left: 0;
 }
 
-.navigator-section-content li {
+.trek-navigators-section-content li {
     margin-bottom: 0.8em;
     padding-left: 0.3em;
     line-height: 1.6;
 }
 
-.navigator-section-content a {
+.trek-navigators-section-content a {
     color: #f98e2b;
     text-decoration: underline;
 }
 
-.navigator-section-content a:hover {
+.trek-navigators-section-content a:hover {
     text-decoration: none;
 }
 
 /* ----------------------------------------
    9. RIGHT COLUMN - BADGES
    ---------------------------------------- */
-.navigator-badges-wrapper {
+.trek-navigators-badges-wrapper {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.navigator-badges-image {
+.trek-navigators-badges-image {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
@@ -199,12 +199,12 @@
 /* ----------------------------------------
    10. RIGHT COLUMN - DIGITAL BADGES
    ---------------------------------------- */
-.navigator-digital-badges-wrapper {
+.trek-navigators-digital-badges-wrapper {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.navigator-digital-badges-button {
+.trek-navigators-digital-badges-button {
     display: inline-block;
     padding: 8px 20px;
     background-color: #f98e2b;
@@ -217,7 +217,7 @@
     text-decoration: none !important;
 }
 
-.navigator-digital-badges-button:hover {
+.trek-navigators-digital-badges-button:hover {
     background-color: transparent;
     color: #f98e2b;
     text-decoration: none !important;
@@ -226,12 +226,12 @@
 /* ----------------------------------------
    11. RIGHT COLUMN - MORE ABOUT
    ---------------------------------------- */
-.navigator-more-about-wrapper {
+.trek-navigators-more-about-wrapper {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.navigator-more-about-image {
+.trek-navigators-more-about-image {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
@@ -240,16 +240,16 @@
 /* ----------------------------------------
    12. RIGHT COLUMN - LEARN MORE TREK
    ---------------------------------------- */
-.navigator-learn-more-trek-wrapper {
+.trek-navigators-learn-more-trek-wrapper {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.navigator-learn-more-trek-link {
+.trek-navigators-learn-more-trek-link {
     display: block;
 }
 
-.navigator-learn-more-trek-image {
+.trek-navigators-learn-more-trek-image {
     max-width: 100%;
     height: auto;
     border-radius: 5px;

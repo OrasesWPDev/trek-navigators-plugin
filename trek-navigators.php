@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Trek Navigators Plugin
- * Plugin URI: https://yourwebsite.com/
+ * Plugin URI: https://orases.com/
  * Description: Custom post type for Trek Navigators with shortcodes for displaying navigator profiles and archives.
  * Version: 1.0.0
- * Author: Your Name
- * Author URI: https://yourwebsite.com
+ * Author: Orases
+ * Author URI: https://orases.com
  * Text Domain: trek-navigators
  * Domain Path: /languages
  * Requires at least: 5.8
@@ -110,6 +110,17 @@ function trek_navigators_register_assets() {
         $css_version
     );
 
+    // Responsive CSS with dynamic versioning
+    $responsive_css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-responsive.css';
+    $responsive_css_version = file_exists($responsive_css_file) ? filemtime($responsive_css_file) : TREK_NAVIGATORS_VERSION;
+
+    wp_register_style(
+        'trek-navigators-responsive',
+        TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-responsive.css',
+        array('trek-navigators-public'),
+        $responsive_css_version
+    );
+
     // JS with dynamic versioning
     $js_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/js/trek-navigators-public.js';
     $js_version = file_exists($js_file) ? filemtime($js_file) : TREK_NAVIGATORS_VERSION;
@@ -124,6 +135,7 @@ function trek_navigators_register_assets() {
 
     // Always enqueue the base styles and scripts
     wp_enqueue_style('trek-navigators-public');
+    wp_enqueue_style('trek-navigators-responsive');
     wp_enqueue_script('trek-navigators-public');
 }
 

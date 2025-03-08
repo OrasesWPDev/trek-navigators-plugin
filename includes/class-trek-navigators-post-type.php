@@ -171,11 +171,11 @@ class Trek_Navigators_Post_Type {
         ?>
         <span>
             <span><a href="<?php echo home_url(); ?>">Home</a></span>
-            <span class="breadcrumb-divider">/</span>
+            <span class="trek-navigators-breadcrumb-divider">/</span>
             <span><a href="<?php echo home_url('/techtrek/'); ?>">TechTrek</a></span>
-            <span class="breadcrumb-divider">/</span>
+            <span class="trek-navigators-breadcrumb-divider">/</span>
             <span><a href="<?php echo home_url('/techtrek/navigators/'); ?>">Navigators</a></span>
-            <span class="breadcrumb-divider">/</span>
+            <span class="trek-navigators-breadcrumb-divider">/</span>
             <span class="breadcrumb_last" aria-current="page"><?php echo esc_html($post_title); ?></span>
         </span>
         <?php
