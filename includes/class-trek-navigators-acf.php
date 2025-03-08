@@ -110,29 +110,158 @@ class Trek_Navigators_ACF {
 
         $json_file = TREK_NAVIGATORS_PLUGIN_PATH . 'acf-json/post_type_trek_navigator.json';
 
-        if (file_exists($json_file)) {
-            $json_content = file_get_contents($json_file);
-            $post_types = json_decode($json_content, true);
+        if (!file_exists($json_file)) {
+            if (WP_DEBUG) {
+                error_log('Post type JSON file not found: ' . $json_file);
+            }
+            return;
+        }
 
-            if (is_array($post_types)) {
-                foreach ($post_types as $post_type) {
-                    // Check if this post type already exists in ACF
-                    $existing = acf_get_post_type_post($post_type['key']);
+        $json_content = file_get_contents($json_file);
 
-                    if (!$existing) {
-                        // Set import info
-                        $post_type['import_source'] = 'trek-navigators-plugin';
-                        $post_type['import_date'] = date('Y-m-d H:i:s');
+        if (empty($json_content)) {
+            if (WP_DEBUG) {
+                error_log('Empty JSON file: ' . $json_file);
+            }
+            return;
+        }
 
-                        // Import the post type - pass the entire array as expected in newer ACF versions
-                        acf_update_post_type($post_type);
+        $post_types = json_decode($json_content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            if (WP_DEBUG) {
+                error_log('JSON decode error: ' . json_last_error_msg() . ' in file: ' . $json_file);
+            }
+            return;
+        }
+
+        // If not an array, try to handle a single post type definition
+        if (!is_array($post_types)) {
+            if (WP_DEBUG) {
+                error_log('Post type JSON is not an array, attempting to process as single object');
+            }
+
+            // Try to process as a single object
+            if (is_object($post_types) || (is_array($post_types) && isset($post_types['key']))) {
+                $post_types = array($post_types);
+            } else {
+                if (WP_DEBUG) {
+                    error_log('Unable to process post type JSON: invalid format');
+                }
+                return;
+            }
+        }
+
+        // Process each post type
+        foreach ($post_types as $post_type_data) {
+            // Skip if not an array or missing required keys
+            if (!is_array($post_type_data) || !isset($post_type_data['key'])) {
+                if (WP_DEBUG) {
+                    error_log('Invalid post type data structure, missing key');
+                }
+                continue;
+            }
+
+            try {
+                // Get post type key
+                $post_type_key = $post_type_data['key'];
+
+                // Check if this post type already exists in ACF
+                $existing = false;
+                if (function_exists('acf_get_post_type_post')) {
+                    $existing = acf_get_post_type_post($post_type_key);
+                }
+
+                if (!$existing) {
+                    // Set import info
+                    $post_type_data['import_source'] = 'trek-navigators-plugin';
+                    $post_type_data['import_date'] = date('Y-m-d H:i:s');
+
+                    if (WP_DEBUG) {
+                        error_log('Importing post type: ' . $post_type_data['title']);
+                    }
+
+                    // Different versions of ACF might require different approaches
+                    if (function_exists('acf_update_post_type')) {
+                        acf_update_post_type($post_type_data);
 
                         if (WP_DEBUG) {
-                            error_log('Imported post type: ' . $post_type['title']);
+                            error_log('Successfully imported post type via acf_update_post_type()');
                         }
+                    } else {
+                        // Fallback to native WordPress registration if ACF function not available
+                        $this->register_post_type_fallback($post_type_data);
+                    }
+                } else {
+                    if (WP_DEBUG) {
+                        error_log('Post type already exists: ' . $post_type_key);
                     }
                 }
+            } catch (Exception $e) {
+                if (WP_DEBUG) {
+                    error_log('Error importing post type: ' . $e->getMessage());
+                }
             }
+        }
+    }
+
+    /**
+     * Fallback post type registration using WordPress native functions
+     * Used if ACF post type registration fails
+     *
+     * @param array $post_type_data The post type definition from JSON
+     */
+    private function register_post_type_fallback($post_type_data) {
+        // Only run if this isn't already registered
+        if (post_type_exists($post_type_data['post_type'])) {
+            return;
+        }
+
+        if (WP_DEBUG) {
+            error_log('Using fallback post type registration for: ' . $post_type_data['post_type']);
+        }
+
+        // Get labels from the data or use defaults
+        $labels = isset($post_type_data['labels']) ? $post_type_data['labels'] : array();
+
+        // Basic arguments
+        $args = array(
+            'labels'             => $labels,
+            'description'        => isset($post_type_data['description']) ? $post_type_data['description'] : '',
+            'public'             => isset($post_type_data['public']) ? $post_type_data['public'] : true,
+            'hierarchical'       => isset($post_type_data['hierarchical']) ? $post_type_data['hierarchical'] : false,
+            'exclude_from_search' => isset($post_type_data['exclude_from_search']) ? $post_type_data['exclude_from_search'] : false,
+            'publicly_queryable' => isset($post_type_data['publicly_queryable']) ? $post_type_data['publicly_queryable'] : true,
+            'show_ui'            => isset($post_type_data['show_ui']) ? $post_type_data['show_ui'] : true,
+            'show_in_menu'       => isset($post_type_data['show_in_menu']) ? $post_type_data['show_in_menu'] : true,
+            'show_in_admin_bar'  => isset($post_type_data['show_in_admin_bar']) ? $post_type_data['show_in_admin_bar'] : false,
+            'show_in_nav_menus'  => isset($post_type_data['show_in_nav_menus']) ? $post_type_data['show_in_nav_menus'] : true,
+            'show_in_rest'       => isset($post_type_data['show_in_rest']) ? $post_type_data['show_in_rest'] : true,
+            'menu_position'      => isset($post_type_data['menu_position']) ? $post_type_data['menu_position'] : null,
+            'menu_icon'          => isset($post_type_data['menu_icon']['value']) ? $post_type_data['menu_icon']['value'] : 'dashicons-businessperson',
+            'capability_type'    => 'post',
+            'supports'           => isset($post_type_data['supports']) ? $post_type_data['supports'] : array('title', 'editor'),
+            'taxonomies'         => isset($post_type_data['taxonomies']) ? $post_type_data['taxonomies'] : array(),
+            'has_archive'        => isset($post_type_data['has_archive']) ? $post_type_data['has_archive'] : true,
+        );
+
+        // Handle rewrite rules
+        if (isset($post_type_data['rewrite'])) {
+            $rewrite = $post_type_data['rewrite'];
+
+            $args['rewrite'] = array(
+                'slug'       => isset($rewrite['permalink_rewrite']) && $rewrite['permalink_rewrite'] === 'custom' ? 'techtrek/navigators' : $post_type_data['post_type'],
+                'with_front' => isset($rewrite['with_front']) ? ($rewrite['with_front'] === '1') : true,
+                'feeds'      => isset($rewrite['feeds']) ? ($rewrite['feeds'] === '1') : false,
+                'pages'      => isset($rewrite['pages']) ? ($rewrite['pages'] === '1') : true
+            );
+        }
+
+        // Register the post type
+        register_post_type($post_type_data['post_type'], $args);
+
+        if (WP_DEBUG) {
+            error_log('Fallback post type registration complete');
         }
     }
 
@@ -146,22 +275,77 @@ class Trek_Navigators_ACF {
 
         $json_file = TREK_NAVIGATORS_PLUGIN_PATH . 'acf-json/group_trek_navigators_fields.json';
 
-        if (file_exists($json_file)) {
-            $json_content = file_get_contents($json_file);
-            $field_group = json_decode($json_content, true);
+        if (!file_exists($json_file)) {
+            if (WP_DEBUG) {
+                error_log('Field group JSON file not found: ' . $json_file);
+            }
+            return;
+        }
 
-            if (is_array($field_group) && isset($field_group['key'])) {
-                // Check if this field group already exists
-                $existing = acf_get_field_group($field_group['key']);
+        $json_content = file_get_contents($json_file);
 
-                if (!$existing) {
-                    // Import the field group
-                    acf_import_field_group($field_group);
+        if (empty($json_content)) {
+            if (WP_DEBUG) {
+                error_log('Empty field group JSON file: ' . $json_file);
+            }
+            return;
+        }
 
-                    if (WP_DEBUG) {
-                        error_log('Imported field group: ' . $field_group['title']);
-                    }
+        $field_group = json_decode($json_content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            if (WP_DEBUG) {
+                error_log('Field group JSON decode error: ' . json_last_error_msg());
+            }
+            return;
+        }
+
+        if (!is_array($field_group)) {
+            if (WP_DEBUG) {
+                error_log('Field group JSON is not an array');
+            }
+            return;
+        }
+
+        // Handle both single field group format and array of field groups
+        if (isset($field_group['key'])) {
+            // Single field group format
+            $this->import_single_field_group($field_group);
+        } else {
+            // Possibly array of field groups
+            foreach ($field_group as $single_group) {
+                if (is_array($single_group) && isset($single_group['key'])) {
+                    $this->import_single_field_group($single_group);
                 }
+            }
+        }
+    }
+
+    /**
+     * Import a single field group
+     *
+     * @param array $field_group Field group definition
+     */
+    private function import_single_field_group($field_group) {
+        // Check if this field group already exists
+        $existing = acf_get_field_group($field_group['key']);
+
+        if (!$existing) {
+            try {
+                // Import the field group
+                acf_import_field_group($field_group);
+
+                if (WP_DEBUG) {
+                    error_log('Imported field group: ' . $field_group['title']);
+                }
+            } catch (Exception $e) {
+                if (WP_DEBUG) {
+                    error_log('Error importing field group: ' . $e->getMessage());
+                }
+            }
+        } else {
+            if (WP_DEBUG) {
+                error_log('Field group already exists: ' . $field_group['key']);
             }
         }
     }
@@ -177,7 +361,6 @@ class Trek_Navigators_ACF {
         }
 
         $sync_required = $this->get_field_groups_requiring_sync();
-
         if (!empty($sync_required) && is_array($sync_required)) {
             ?>
             <div class="notice notice-warning is-dismissible">
