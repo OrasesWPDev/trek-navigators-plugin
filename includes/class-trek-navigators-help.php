@@ -142,7 +142,7 @@ private function get_admin_styles() {
             font-size: 13px;
             color: #0073aa;
             display: inline-block;
-            max-width: 100%; /* Ensure code blocks don't overflow */
+            max-width: 100%; /* Ensure code blocks does not overflow */
             overflow-wrap: break-word; /* Allow long code to wrap */
             white-space: normal; /* Allow long code to wrap */
         }
