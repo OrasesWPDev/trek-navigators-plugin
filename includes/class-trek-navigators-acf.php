@@ -124,8 +124,8 @@ class Trek_Navigators_ACF {
                         $post_type['import_source'] = 'trek-navigators-plugin';
                         $post_type['import_date'] = date('Y-m-d H:i:s');
 
-                        // Import the post type
-                        acf_update_post_type($post_type['key'], $post_type);
+                        // Import the post type - pass the entire array as expected in newer ACF versions
+                        acf_update_post_type($post_type);
 
                         if (WP_DEBUG) {
                             error_log('Imported post type: ' . $post_type['title']);
