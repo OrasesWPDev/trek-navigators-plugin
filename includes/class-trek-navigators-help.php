@@ -56,78 +56,108 @@ class Trek_Navigators_Help {
 	}
 
 	/**
-	 * Get admin styles for help page
-	 *
-	 * @return string CSS styles
-	 */
-	private function get_admin_styles() {
-		return '
-            .trek-navigators-help-wrap {
-                max-width: 1200px;
-                margin: 20px 20px 0 0;
-            }
-            .trek-navigators-help-header {
-                background: #fff;
-                padding: 20px;
-                border-radius: 3px;
-                margin-bottom: 20px;
-                border-left: 4px solid #2c6c3e;
-                box-shadow: 0 1px 1px rgba(0,0,0,.04);
-            }
-            .trek-navigators-help-section {
-                background: #fff;
-                padding: 20px;
-                border-radius: 3px;
-                margin-bottom: 20px;
-                box-shadow: 0 1px 1px rgba(0,0,0,.04);
-            }
-            .trek-navigators-help-section h2 {
-                border-bottom: 1px solid #eee;
-                padding-bottom: 10px;
-                margin-top: 0;
-            }
-            .trek-navigators-help-section h3 {
-                margin-top: 1.5em;
-                margin-bottom: 0.5em;
-            }
-            .trek-navigators-help-section table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 1em 0;
-                table-layout: fixed;
-            }
-            .trek-navigators-help-section table th,
-            .trek-navigators-help-section table td {
-                text-align: left;
-                padding: 8px;
-                border: 1px solid #ddd;
-                vertical-align: top;
-                word-wrap: break-word;
-            }
-            .trek-navigators-help-section table th {
-                background-color: #f8f8f8;
-                font-weight: 600;
-            }
-            .trek-navigators-help-section table tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-            .trek-navigators-help-section code {
-                background: #f8f8f8;
-                padding: 2px 6px;
-                border-radius: 3px;
-                font-size: 13px;
-                color: #0073aa;
-                display: inline-block;
-            }
-            .trek-navigators-shortcode-example {
-                background: #f8f8f8;
-                padding: 15px;
-                border-left: 4px solid #0073aa;
-                font-family: monospace;
-                margin: 10px 0;
-            }
-        ';
-	}
+ * Get admin styles for help page
+ *
+ * @return string CSS styles
+ */
+private function get_admin_styles() {
+    return '
+        .trek-navigators-help-wrap {
+            max-width: 1300px; /* Increased from 1200px */
+            margin: 20px 20px 0 0;
+        }
+        .trek-navigators-help-header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2c6c3e;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        }
+        .trek-navigators-help-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+            overflow-x: auto; /* Added for table overflow */
+        }
+        .trek-navigators-help-section h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .trek-navigators-help-section h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .trek-navigators-help-section table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            table-layout: fixed;
+        }
+        .trek-navigators-help-section table th,
+        .trek-navigators-help-section table td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+            word-wrap: break-word;
+            word-break: break-word; /* Added to break long words */
+            hyphens: auto; /* Added for better text wrapping */
+        }
+        /* Adjust column widths */
+        .trek-navigators-help-section table th:nth-child(1), 
+        .trek-navigators-help-section table td:nth-child(1) {
+            width: 15%; /* Parameter column */
+        }
+        .trek-navigators-help-section table th:nth-child(2), 
+        .trek-navigators-help-section table td:nth-child(2) {
+            width: 25%; /* Description column */
+        }
+        .trek-navigators-help-section table th:nth-child(3), 
+        .trek-navigators-help-section table td:nth-child(3) {
+            width: 10%; /* Default column */
+        }
+        .trek-navigators-help-section table th:nth-child(4), 
+        .trek-navigators-help-section table td:nth-child(4) {
+            width: 20%; /* Options column */
+        }
+        .trek-navigators-help-section table th:nth-child(5), 
+        .trek-navigators-help-section table td:nth-child(5) {
+            width: 30%; /* Examples column */
+        }
+        .trek-navigators-help-section table th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+        }
+        .trek-navigators-help-section table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .trek-navigators-help-section code {
+            background: #f8f8f8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #0073aa;
+            display: inline-block;
+            max-width: 100%; /* Ensure code blocks don't overflow */
+            overflow-wrap: break-word; /* Allow long code to wrap */
+            white-space: normal; /* Allow long code to wrap */
+        }
+        .trek-navigators-shortcode-example {
+            background: #f8f8f8;
+            padding: 15px;
+            border-left: 4px solid #0073aa;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto; /* Allow scrolling for very long examples */
+            white-space: pre-wrap; /* Better wrapping for code examples */
+            word-break: break-word; /* Break words if necessary */
+        }
+    ';
+}
 
 	/**
 	 * Content for help page
