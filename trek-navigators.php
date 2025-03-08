@@ -97,8 +97,40 @@ function trek_navigators_acf_missing_notice() {
     <?php
 }
 
-// Register front-end assets with dynamic versioning
+/**
+ * Register and conditionally enqueue front-end assets
+ *
+ * Only loads assets on pages where Trek Navigator content is displayed
+ * to improve site performance.
+ */
 function trek_navigators_register_assets() {
+    // Check if we're on a relevant page before loading assets
+    $should_load = false;
+
+    // Check if we're on a Trek Navigator single or archive page
+    if (is_singular('trek-navigator') || is_post_type_archive('trek-navigator')) {
+        $should_load = true;
+    }
+    // Check for category/tag archives that might contain Trek Navigators
+    elseif (is_tax() && get_query_var('post_type') === 'trek-navigator') {
+        $should_load = true;
+    }
+    // Check global $post for shortcodes if available
+    elseif (is_a(get_post(), 'WP_Post')) {
+        // Use get_post()->post_content directly instead of get_the_content()
+        // which requires being in the loop
+        $post_content = get_post()->post_content;
+        if (has_shortcode($post_content, 'trek_navigators') ||
+            has_shortcode($post_content, 'trek_navigator') ||
+            has_shortcode($post_content, 'trek_navigator_breadcrumbs')) {
+            $should_load = true;
+        }
+    }
+
+    // Apply filter to allow theme/plugins to force load our assets
+    $should_load = apply_filters('trek_navigators_load_assets', $should_load);
+
+    // Register assets regardless of whether we'll load them (for potential manual enqueuing)
     // Main CSS with dynamic versioning
     $css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-public.css';
     $css_version = file_exists($css_file) ? filemtime($css_file) : TREK_NAVIGATORS_VERSION;
@@ -133,13 +165,19 @@ function trek_navigators_register_assets() {
         true
     );
 
-    // Always enqueue the base styles and scripts
-    wp_enqueue_style('trek-navigators-public');
-    wp_enqueue_style('trek-navigators-responsive');
-    wp_enqueue_script('trek-navigators-public');
+    // Only enqueue the assets if we're on a relevant page
+    if ($should_load) {
+        wp_enqueue_style('trek-navigators-public');
+        wp_enqueue_style('trek-navigators-responsive');
+        wp_enqueue_script('trek-navigators-public');
+    }
 }
 
-// Register admin assets with dynamic versioning
+/**
+ * Register admin assets with dynamic versioning
+ *
+ * @param string $hook The current admin page
+ */
 function trek_navigators_register_admin_assets($hook) {
     // Only load on Trek Navigator post type screens
     global $post_type;
@@ -213,6 +251,66 @@ function trek_navigators_force_acf_sync() {
     }
 }
 add_action('acf/init', 'trek_navigators_force_acf_sync', 20);
+
+/**
+ * Clear cache when Trek Navigator posts are saved, trashed, or modified
+ *
+ * @param int $post_id The ID of the post being saved
+ */
+function trek_navigators_clear_cache($post_id) {
+    // Skip if this is an autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Skip if this isn't a Trek Navigator post
+    if (get_post_type($post_id) !== 'trek-navigator') {
+        return;
+    }
+
+    // Log clearing cache if debugging is enabled
+    if (WP_DEBUG) {
+        error_log('Clearing Trek Navigators cache for post ID: ' . $post_id);
+    }
+
+    // Method 1: Delete all transients with our prefix using a direct DB query
+    global $wpdb;
+    $wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_trek_navigators_%'");
+    $wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_timeout_trek_navigators_%'");
+
+    // Method 2: Also clear any transients that may have been added via the shortcode
+    $cache_key_pattern = 'trek_navigators_' . md5('*');
+    $pattern_length = strlen($cache_key_pattern) - 1; // Subtract 1 for the wildcard
+
+    // Get all transients
+    $all_transients = $wpdb->get_results(
+        "SELECT option_name FROM $wpdb->options 
+        WHERE option_name LIKE '_transient_trek_navigators_%'"
+    );
+
+    // Manually delete transients that match our pattern
+    if ($all_transients) {
+        foreach ($all_transients as $transient) {
+            $transient_name = str_replace('_transient_', '', $transient->option_name);
+            delete_transient($transient_name);
+        }
+    }
+
+    // Also clear any page cache for related URLs
+    if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+    }
+
+    // Allow other code to run additional cache clearing logic
+    do_action('trek_navigators_cache_cleared', $post_id);
+}
+
+// Hook into various actions that modify Trek Navigator posts
+add_action('save_post', 'trek_navigators_clear_cache');
+add_action('edit_post', 'trek_navigators_clear_cache');
+add_action('delete_post', 'trek_navigators_clear_cache');
+add_action('trashed_post', 'trek_navigators_clear_cache');
+add_action('untrashed_post', 'trek_navigators_clear_cache');
 
 // Activation hook
 register_activation_hook(__FILE__, 'trek_navigators_activate');
