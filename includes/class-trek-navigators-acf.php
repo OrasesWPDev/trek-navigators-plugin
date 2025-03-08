@@ -110,6 +110,14 @@ class Trek_Navigators_ACF {
 
         $json_file = TREK_NAVIGATORS_PLUGIN_PATH . 'acf-json/post_type_trek_navigator.json';
 
+        // Add check here to return early if the file doesn't exist
+        if (!file_exists($json_file)) {
+            if (WP_DEBUG) {
+                error_log('Post type JSON file not found: ' . $json_file);
+            }
+            return;
+        }
+
         if (!file_exists($json_file)) {
             if (WP_DEBUG) {
                 error_log('Post type JSON file not found: ' . $json_file);
