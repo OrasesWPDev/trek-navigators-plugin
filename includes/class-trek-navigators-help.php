@@ -167,30 +167,35 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>display_type</code></td>
 						<td><?php esc_html_e('Layout type for navigators', 'trek-navigators'); ?></td>
 						<td><code>grid</code></td>
 						<td><code>grid</code>, <code>list</code></td>
+						<td><code>display_type="list"</code></td>
 					</tr>
 					<tr>
 						<td><code>columns</code></td>
 						<td><?php esc_html_e('Number of columns in grid view', 'trek-navigators'); ?></td>
 						<td><code>3</code></td>
 						<td><?php esc_html_e('any number (1-6 recommended)', 'trek-navigators'); ?></td>
+						<td><code>columns="4"</code></td>
 					</tr>
 					<tr>
 						<td><code>posts_per_page</code></td>
 						<td><?php esc_html_e('Number of navigators to display', 'trek-navigators'); ?></td>
 						<td><code>12</code></td>
 						<td><?php esc_html_e('any number, -1 for all', 'trek-navigators'); ?></td>
+						<td><code>posts_per_page="6"</code><br><code>posts_per_page="-1"</code></td>
 					</tr>
 					<tr>
 						<td><code>pagination</code></td>
 						<td><?php esc_html_e('Whether to show pagination', 'trek-navigators'); ?></td>
 						<td><code>false</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>pagination="true"</code></td>
 					</tr>
 				</table>
 
@@ -201,24 +206,28 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>order</code></td>
 						<td><?php esc_html_e('Sort order', 'trek-navigators'); ?></td>
 						<td><code>ASC</code></td>
 						<td><code>ASC</code>, <code>DESC</code></td>
+						<td><code>order="DESC"</code></td>
 					</tr>
 					<tr>
 						<td><code>orderby</code></td>
 						<td><?php esc_html_e('Field to order by', 'trek-navigators'); ?></td>
 						<td><code>title</code></td>
 						<td><code>date</code>, <code>title</code>, <code>menu_order</code>, <code>rand</code>, <code>meta_value</code></td>
+						<td><code>orderby="date"</code><br><code>orderby="rand"</code></td>
 					</tr>
 					<tr>
 						<td><code>meta_key</code></td>
 						<td><?php esc_html_e('Custom field to order by (when orderby is meta_value)', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
 						<td><?php esc_html_e('any ACF field name', 'trek-navigators'); ?></td>
+						<td><code>orderby="meta_value" meta_key="navigator_start_date"</code></td>
 					</tr>
 				</table>
 
@@ -228,31 +237,36 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Parameter', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
-						<th><?php esc_html_e('Example', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>category</code></td>
 						<td><?php esc_html_e('Filter by category', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
-						<td><code>category-slug</code> or ID number</td>
+						<td><?php esc_html_e('category slug or ID', 'trek-navigators'); ?></td>
+						<td><code>category="featured"</code><br><code>category="5"</code></td>
 					</tr>
 					<tr>
 						<td><code>tag</code></td>
 						<td><?php esc_html_e('Filter by tag', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
-						<td><code>tag-slug</code> or ID number</td>
+						<td><?php esc_html_e('tag slug or ID', 'trek-navigators'); ?></td>
+						<td><code>tag="senior"</code><br><code>tag="8"</code></td>
 					</tr>
 					<tr>
 						<td><code>include</code></td>
 						<td><?php esc_html_e('Include only specific navigators', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
-						<td><code>42,51,90</code> (IDs separated by commas)</td>
+						<td><?php esc_html_e('IDs separated by commas', 'trek-navigators'); ?></td>
+						<td><code>include="42,51,90"</code></td>
 					</tr>
 					<tr>
 						<td><code>exclude</code></td>
 						<td><?php esc_html_e('Exclude specific navigators', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
-						<td><code>42,51,90</code> (IDs separated by commas)</td>
+						<td><?php esc_html_e('IDs separated by commas', 'trek-navigators'); ?></td>
+						<td><code>exclude="42,51,90"</code></td>
 					</tr>
 				</table>
 
@@ -263,60 +277,70 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>show_image</code></td>
 						<td><?php esc_html_e('Whether to show the navigator image', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_image="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>image_size</code></td>
 						<td><?php esc_html_e('Size of the image', 'trek-navigators'); ?></td>
 						<td><code>medium</code></td>
 						<td><code>thumbnail</code>, <code>medium</code>, <code>large</code>, <code>full</code></td>
+						<td><code>image_size="thumbnail"</code><br><code>image_size="large"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_title</code></td>
 						<td><?php esc_html_e('Whether to show the navigator title', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_title="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_date</code></td>
 						<td><?php esc_html_e('Whether to show the start date', 'trek-navigators'); ?></td>
 						<td><code>false</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_date="true"</code></td>
 					</tr>
 					<tr>
 						<td><code>excerpt_length</code></td>
 						<td><?php esc_html_e('Length of excerpt in words', 'trek-navigators'); ?></td>
 						<td><code>25</code></td>
 						<td><?php esc_html_e('any number', 'trek-navigators'); ?></td>
+						<td><code>excerpt_length="15"</code><br><code>excerpt_length="50"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_badge</code></td>
 						<td><?php esc_html_e('Whether to show PTCB badges image', 'trek-navigators'); ?></td>
 						<td><code>false</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_badge="true"</code></td>
 					</tr>
 					<tr>
 						<td><code>link_target</code></td>
 						<td><?php esc_html_e('Where to open links', 'trek-navigators'); ?></td>
 						<td><code>_self</code></td>
 						<td><code>_self</code>, <code>_blank</code></td>
+						<td><code>link_target="_blank"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_read_more</code></td>
 						<td><?php esc_html_e('Display "Read More" link', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_read_more="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>read_more_text</code></td>
 						<td><?php esc_html_e('Custom text for read more link', 'trek-navigators'); ?></td>
 						<td><code>View Profile</code></td>
 						<td><?php esc_html_e('any text', 'trek-navigators'); ?></td>
+						<td><code>read_more_text="Learn More"</code><br><code>read_more_text="Meet this Navigator"</code></td>
 					</tr>
 				</table>
 
@@ -327,24 +351,28 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>offset</code></td>
 						<td><?php esc_html_e('Number of posts to skip', 'trek-navigators'); ?></td>
 						<td><code>0</code></td>
 						<td><?php esc_html_e('any number', 'trek-navigators'); ?></td>
+						<td><code>offset="3"</code><br><code>offset="10"</code></td>
 					</tr>
 					<tr>
 						<td><code>cache</code></td>
 						<td><?php esc_html_e('Whether to cache results', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>cache="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>class</code></td>
 						<td><?php esc_html_e('Additional CSS classes', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
 						<td><?php esc_html_e('any class names', 'trek-navigators'); ?></td>
+						<td><code>class="featured-navigators"</code><br><code>class="blue-theme highlighted"</code></td>
 					</tr>
 				</table>
 
@@ -383,54 +411,63 @@ class Trek_Navigators_Help {
 						<th><?php esc_html_e('Description', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Default', 'trek-navigators'); ?></th>
 						<th><?php esc_html_e('Options', 'trek-navigators'); ?></th>
+						<th><?php esc_html_e('Examples', 'trek-navigators'); ?></th>
 					</tr>
 					<tr>
 						<td><code>id</code></td>
 						<td><?php esc_html_e('Trek Navigator ID (required)', 'trek-navigators'); ?></td>
 						<td><code>0</code></td>
 						<td><?php esc_html_e('any valid post ID', 'trek-navigators'); ?></td>
+						<td><code>id="42"</code><br><code>id="156"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_image</code></td>
 						<td><?php esc_html_e('Whether to show the navigator image', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_image="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_date</code></td>
 						<td><?php esc_html_e('Display start date', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_date="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_video</code></td>
 						<td><?php esc_html_e('Whether to display the video embed', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_video="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_content_sections</code></td>
 						<td><?php esc_html_e('Display the content sections', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_content_sections="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_digital_badges_link</code></td>
 						<td><?php esc_html_e('Show link to digital badges', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_digital_badges_link="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>show_more_about</code></td>
 						<td><?php esc_html_e('Display the "More About" section', 'trek-navigators'); ?></td>
 						<td><code>true</code></td>
 						<td><code>true</code>, <code>false</code></td>
+						<td><code>show_more_about="false"</code></td>
 					</tr>
 					<tr>
 						<td><code>class</code></td>
 						<td><?php esc_html_e('Additional CSS classes', 'trek-navigators'); ?></td>
 						<td><code>''</code></td>
 						<td><?php esc_html_e('any class names', 'trek-navigators'); ?></td>
+						<td><code>class="featured-profile"</code><br><code>class="compact-layout special"</code></td>
 					</tr>
 				</table>
 
