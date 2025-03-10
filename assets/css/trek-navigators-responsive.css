@@ -11,12 +11,24 @@
     .trek-navigators-single .container {
         max-width: 95%;
     }
+
+    /* Adjust size of images on large screens but below 1140px */
+    :root {
+        --trek-navigators-archive-image-size: 300px;
+        --trek-navigators-shortcode-image-size: 230px;
+    }
 }
 
 /* ----------------------------------------
    2. MEDIUM DEVICES (TABLETS, 992px AND DOWN)
    ---------------------------------------- */
 @media (max-width: 992px) {
+    /* Adjust image sizes for medium screens */
+    :root {
+        --trek-navigators-archive-image-size: 250px;
+        --trek-navigators-shortcode-image-size: 200px;
+    }
+
     /* Main layout adjustments */
     .trek-navigators-two-column-layout {
         flex-direction: column;
@@ -33,9 +45,31 @@
         font-size: 18px;
     }
 
-    /* Grid adjustments for archives */
-    .trek-navigators-grid-item {
+    .trek-navigators-single-title {
+        font-size: 28px;
+    }
+
+    /* Grid adjustments for both archive and shortcodes */
+    .trek-navigators-archive .trek-navigators-grid-item {
         width: 50%; /* 2 columns on medium devices */
+    }
+
+    /* Shortcode column adjustments */
+    .trek-navigators-container[data-columns="4"] .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="5"] .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="6"] .trek-navigators-grid-item {
+        width: 33.333%; /* Force 3 columns maximum on tablets */
+    }
+
+    /* Image size adjustments for forced columns */
+    .trek-navigators-container[data-columns="4"] .trek-navigators-grid-image,
+    .trek-navigators-container[data-columns="4"] .trek-navigators-no-image,
+    .trek-navigators-container[data-columns="5"] .trek-navigators-grid-image,
+    .trek-navigators-container[data-columns="5"] .trek-navigators-no-image,
+    .trek-navigators-container[data-columns="6"] .trek-navigators-grid-image,
+    .trek-navigators-container[data-columns="6"] .trek-navigators-no-image {
+        width: var(--trek-navigators-shortcode-image-size);
+        height: var(--trek-navigators-shortcode-image-size);
     }
 }
 
@@ -43,6 +77,12 @@
    3. SMALL DEVICES (LANDSCAPE PHONES, 768px AND DOWN)
    ---------------------------------------- */
 @media (max-width: 768px) {
+    /* Adjust image sizes for small screens */
+    :root {
+        --trek-navigators-archive-image-size: 200px;
+        --trek-navigators-shortcode-image-size: 180px;
+    }
+
     /* Header adjustments */
     .trek-navigators-header-image {
         margin-top: 15px;
@@ -63,13 +103,32 @@
         font-size: 14px;
     }
 
-    /* Archive grid adjustments */
+    /* Archive and shortcode grid adjustments */
     .trek-navigators-grid {
-        margin: 0 -10px;
+        margin: -10px;
     }
 
     .trek-navigators-grid-item {
         padding: 10px;
+    }
+
+    /* Force 2 columns on small devices */
+    .trek-navigators-archive .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="3"] .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="4"] .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="5"] .trek-navigators-grid-item,
+    .trek-navigators-container[data-columns="6"] .trek-navigators-grid-item {
+        width: 50%;
+    }
+
+    /* Single column layout for 1-column shortcodes */
+    .trek-navigators-container[data-columns="1"] .trek-navigators-grid-item {
+        width: 100%;
+    }
+
+    /* Title size adjustments */
+    .trek-navigators-single-title {
+        font-size: 24px;
     }
 }
 
@@ -77,6 +136,12 @@
    4. EXTRA SMALL DEVICES (PORTRAIT PHONES, 576px AND DOWN)
    ---------------------------------------- */
 @media (max-width: 576px) {
+    /* Adjust image sizes for extra small screens */
+    :root {
+        --trek-navigators-archive-image-size: 170px;
+        --trek-navigators-shortcode-image-size: 150px;
+    }
+
     /* Single post adjustments */
     .trek-navigators-section-title {
         font-size: 16px;
@@ -86,9 +151,24 @@
         font-size: 14px;
     }
 
-    /* Grid adjustments */
-    .trek-navigators-grid-item {
-        width: 100%; /* 1 column on small devices */
+    .trek-navigators-single-title {
+        font-size: 20px;
+    }
+
+    /* Grid adjustments - 1 column on small devices */
+    .trek-navigators-archive .trek-navigators-grid-item,
+    .trek-navigators-container .trek-navigators-grid-item {
+        width: 100%; /* 1 column on extra small devices */
+    }
+
+    /* Center images in mobile view */
+    .trek-navigators-grid-image-wrapper {
+        text-align: center;
+    }
+
+    .trek-navigators-grid-image,
+    .trek-navigators-no-image {
+        margin: 0 auto;
     }
 
     /* Spacing adjustments */
@@ -101,6 +181,17 @@
     .trek-navigators-more-about-wrapper,
     .trek-navigators-learn-more-trek-wrapper {
         margin-bottom: 20px;
+    }
+
+    /* Content spacing */
+    .trek-navigators-section-content ul,
+    .trek-navigators-section-content ol {
+        margin-left: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .trek-navigators-section-content li {
+        margin-bottom: 0.5em;
     }
 }
 
@@ -144,17 +235,6 @@
     /* Image adjustments */
     .trek-navigators-header-image-wrapper {
         margin-bottom: 15px;
-    }
-
-    /* Content section adjustments */
-    .trek-navigators-section-content ul,
-    .trek-navigators-section-content ol {
-        margin-left: 1rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .trek-navigators-section-content li {
-        margin-bottom: 0.5em;
     }
 }
 

@@ -3,21 +3,42 @@
  */
 
 /* ----------------------------------------
+   1. CSS VARIABLES (CUSTOM PROPERTIES)
+   ---------------------------------------- */
+:root {
+    /* Base image sizes */
+    --trek-navigators-archive-image-size: 330px;
+    --trek-navigators-shortcode-image-size: 250px;
+
+    /* Spacing values */
+    --trek-navigators-spacing-small: 10px;
+    --trek-navigators-spacing-medium: 20px;
+    --trek-navigators-spacing-large: 40px;
+
+    /* Colors */
+    --trek-navigators-primary-color: #2c6c3e;
+    --trek-navigators-secondary-color: #f98e2b;
+    --trek-navigators-text-color: #444;
+    --trek-navigators-bg-color: #fff;
+    --trek-navigators-header-bg: rgb(0, 44, 92);
+}
+
+/* ----------------------------------------
    1. MAIN CONTAINERS
    ---------------------------------------- */
 .trek-navigators-single {
-    color: #444;
+    color: var(--trek-navigators-text-color);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 .trek-navigators-single p,
 .trek-navigators-single li,
 .trek-navigators-single div {
-    color: #444; /* Ensure consistent text color throughout */
+    color: var(--trek-navigators-text-color);
 }
 
 .trek-navigators-article {
-    margin-bottom: 40px;
+    margin-bottom: var(--trek-navigators-spacing-large);
 }
 
 .trek-navigators-single .container {
@@ -31,7 +52,7 @@
    2. HEADER SECTION
    ---------------------------------------- */
 .trek-navigators-section-wrapper.trek-navigators-navigator-header {
-    background-color: rgb(0, 44, 92);
+    background-color: var(--trek-navigators-header-bg);
     width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -50,7 +71,7 @@
    3. HEADER IMAGE
    ---------------------------------------- */
 .trek-navigators-header-image-wrapper {
-    margin-bottom: 25px;
+    margin-bottom: var(--trek-navigators-spacing-medium);
     text-align: center;
 }
 
@@ -64,10 +85,10 @@
    4. START DATE
    ---------------------------------------- */
 .trek-navigators-start-date-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: var(--trek-navigators-spacing-medium);
     font-weight: 600;
     font-size: 18px;
-    color: #2c6c3e;
+    color: var(--trek-navigators-primary-color);
 }
 
 .trek-navigators-start-date {
@@ -78,7 +99,7 @@
    5. MAIN CONTENT
    ---------------------------------------- */
 .trek-navigators-main-content {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
     line-height: 1.6;
 }
 
@@ -118,7 +139,7 @@
    7. VIDEO SECTION
    ---------------------------------------- */
 .trek-navigators-video-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
 }
 
 .trek-navigators-video-responsive {
@@ -140,19 +161,19 @@
    8. CONTENT SECTIONS
    ---------------------------------------- */
 .trek-navigators-content-section {
-    margin-bottom: 40px;
+    margin-bottom: var(--trek-navigators-spacing-large);
 }
 
 .trek-navigators-section-title {
     margin-bottom: 15px;
     font-weight: 700;
-    color: #2c6c3e;
+    color: var(--trek-navigators-primary-color);
     font-size: 20px;
 }
 
 .trek-navigators-section-content {
     line-height: 1.6;
-    color: #444;
+    color: var(--trek-navigators-text-color);
     font-size: 16px;
 }
 
@@ -174,7 +195,7 @@
 }
 
 .trek-navigators-section-content a {
-    color: #f98e2b;
+    color: var(--trek-navigators-secondary-color);
     text-decoration: underline;
 }
 
@@ -186,7 +207,7 @@
    9. RIGHT COLUMN - BADGES
    ---------------------------------------- */
 .trek-navigators-badges-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
     text-align: center;
 }
 
@@ -200,15 +221,15 @@
    10. RIGHT COLUMN - DIGITAL BADGES
    ---------------------------------------- */
 .trek-navigators-digital-badges-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
     text-align: center;
 }
 
 .trek-navigators-digital-badges-button {
     display: inline-block;
     padding: 8px 20px;
-    background-color: #f98e2b;
-    border: 2px solid #f98e2b;
+    background-color: var(--trek-navigators-secondary-color);
+    border: 2px solid var(--trek-navigators-secondary-color);
     color: #fff;
     font-weight: 600;
     text-transform: uppercase;
@@ -219,7 +240,7 @@
 
 .trek-navigators-digital-badges-button:hover {
     background-color: transparent;
-    color: #f98e2b;
+    color: var(--trek-navigators-secondary-color);
     text-decoration: none !important;
 }
 
@@ -227,7 +248,7 @@
    11. RIGHT COLUMN - MORE ABOUT
    ---------------------------------------- */
 .trek-navigators-more-about-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
     text-align: center;
 }
 
@@ -241,7 +262,7 @@
    12. RIGHT COLUMN - LEARN MORE TREK
    ---------------------------------------- */
 .trek-navigators-learn-more-trek-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: var(--trek-navigators-spacing-large);
     text-align: center;
 }
 
@@ -253,4 +274,149 @@
     max-width: 100%;
     height: auto;
     border-radius: 5px;
+}
+
+/* ----------------------------------------
+   13. ARCHIVE GRID STYLING
+   ---------------------------------------- */
+.trek-navigators-grid-container {
+    margin-bottom: var(--trek-navigators-spacing-large);
+}
+
+.trek-navigators-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(-1 * var(--trek-navigators-spacing-small));
+}
+
+.trek-navigators-grid-item {
+    box-sizing: border-box;
+    padding: var(--trek-navigators-spacing-small);
+}
+
+/* Default archive grid (3 columns) */
+.trek-navigators-archive .trek-navigators-grid-item {
+    width: 33.333%;
+}
+
+.trek-navigators-grid-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.trek-navigators-grid-image-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.trek-navigators-grid-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Size control for archive images */
+.trek-navigators-archive .trek-navigators-grid-image {
+    width: var(--trek-navigators-archive-image-size);
+    height: var(--trek-navigators-archive-image-size);
+    object-fit: cover;
+}
+
+/* For when no image is available */
+.trek-navigators-no-image {
+    background-color: #e9e9e9;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trek-navigators-archive .trek-navigators-no-image {
+    width: var(--trek-navigators-archive-image-size);
+    height: var(--trek-navigators-archive-image-size);
+}
+
+.trek-navigators-placeholder {
+    text-align: center;
+    padding: 15px;
+    color: #777;
+    font-weight: bold;
+}
+
+/* No results message */
+.trek-navigators-none {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+    color: #666;
+}
+
+/* ----------------------------------------
+   14. SINGLE PAGE TITLE STYLING
+   ---------------------------------------- */
+.trek-navigators-single-title {
+    color: var(--trek-navigators-primary-color);
+    margin-bottom: var(--trek-navigators-spacing-medium);
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.trek-navigators-single-meta {
+    margin-bottom: var(--trek-navigators-spacing-medium);
+}
+
+.trek-navigators-single-date {
+    color: var(--trek-navigators-primary-color);
+    font-weight: 600;
+}
+
+.trek-navigators-single-image {
+    margin-bottom: var(--trek-navigators-spacing-large);
+    text-align: center;
+}
+
+.trek-navigators-single-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.trek-navigators-single-content {
+    margin-bottom: var(--trek-navigators-spacing-large);
+    line-height: 1.6;
+}
+
+.trek-navigators-single-sections {
+    margin-bottom: var(--trek-navigators-spacing-large);
+}
+
+.trek-navigators-single-section {
+    margin-bottom: var(--trek-navigators-spacing-medium);
+}
+
+.trek-navigators-more-about h3 {
+    color: var(--trek-navigators-primary-color);
+    margin-bottom: var(--trek-navigators-spacing-small);
+}
+
+.trek-navigators-single-badges-link {
+    margin-bottom: var(--trek-navigators-spacing-large);
+    text-align: center;
+}
+
+.trek-navigators-single-badges-link a {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--trek-navigators-secondary-color);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.trek-navigators-single-badges-link a:hover {
+    background-color: darken(var(--trek-navigators-secondary-color), 10%);
 }

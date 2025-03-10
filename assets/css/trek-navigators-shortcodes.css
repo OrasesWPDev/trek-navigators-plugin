@@ -3,31 +3,58 @@
  */
 
 /* ----------------------------------------
-   1. GRID LAYOUT
+   1. CSS VARIABLES (CUSTOM PROPERTIES)
    ---------------------------------------- */
-.trek-navigators-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
+:root {
+    /* Base image sizes */
+    --trek-navigators-archive-image-size: 330px;
+    --trek-navigators-shortcode-image-size: 250px;
+
+    /* Spacing values */
+    --trek-navigators-grid-gap: 20px;
+    --trek-navigators-item-padding: 10px;
+
+    /* Default column counts */
+    --trek-navigators-archive-columns: 3;
+    --trek-navigators-shortcode-columns: 4;
 }
 
 /* ----------------------------------------
-   2. ARCHIVE GRID LAYOUT
+   2. GRID LAYOUT
    ---------------------------------------- */
 .trek-navigators-grid-container {
-    margin-bottom: 40px;
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
 .trek-navigators-grid {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -15px;
+    margin: calc(-1 * var(--trek-navigators-item-padding));
 }
 
 .trek-navigators-grid-item {
-    padding: 15px;
-    width: 33.333%; /* 3 columns by default */
     box-sizing: border-box;
+    padding: var(--trek-navigators-item-padding);
+}
+
+/* Default column width for archive (3 columns) */
+.trek-navigators-archive .trek-navigators-grid-item {
+    width: calc(100% / var(--trek-navigators-archive-columns));
+}
+
+/* Default column width for shortcode (4 columns) */
+.trek-navigators-container .trek-navigators-grid-item {
+    width: calc(100% / var(--trek-navigators-shortcode-columns));
+}
+
+/* ----------------------------------------
+   3. IMAGE STYLING
+   ---------------------------------------- */
+.trek-navigators-grid-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 .trek-navigators-grid-link {
@@ -39,37 +66,135 @@
     opacity: 0.9;
 }
 
-.trek-navigators-grid-image-wrapper {
-    position: relative;
-    overflow: hidden;
-    border-radius: 5px;
-}
-
-.trek-navigators-grid-image {
-    width: 100%;
-    height: auto;
+/* Image sizing for archive */
+.trek-navigators-archive .trek-navigators-grid-image {
+    width: var(--trek-navigators-archive-image-size);
+    height: var(--trek-navigators-archive-image-size);
+    object-fit: cover;
     display: block;
 }
 
-/* For when no image is available */
+/* Image sizing for shortcode */
+.trek-navigators-container .trek-navigators-grid-image {
+    width: var(--trek-navigators-shortcode-image-size);
+    height: var(--trek-navigators-shortcode-image-size);
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder for when no image is available */
 .trek-navigators-no-image {
-    background-color: #e9e9e9;
-    padding-top: 75%; /* Maintain aspect ratio */
-    position: relative;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trek-navigators-archive .trek-navigators-no-image {
+    width: var(--trek-navigators-archive-image-size);
+    height: var(--trek-navigators-archive-image-size);
+}
+
+.trek-navigators-container .trek-navigators-no-image {
+    width: var(--trek-navigators-shortcode-image-size);
+    height: var(--trek-navigators-shortcode-image-size);
 }
 
 .trek-navigators-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    color: #777;
     text-align: center;
     padding: 15px;
+    color: #777;
+    font-weight: bold;
 }
 
-/* No results message */
+/* ----------------------------------------
+   4. COLUMN COUNT VARIATIONS FOR SHORTCODE
+   ---------------------------------------- */
+/* 1 column */
+.trek-navigators-container[data-columns="1"] .trek-navigators-grid-item {
+    width: 100%;
+}
+.trek-navigators-container[data-columns="1"] .trek-navigators-grid-image,
+.trek-navigators-container[data-columns="1"] .trek-navigators-no-image {
+    width: calc(var(--trek-navigators-shortcode-image-size) * 1.5);
+    height: calc(var(--trek-navigators-shortcode-image-size) * 1.5);
+    margin: 0 auto;
+}
+
+/* 2 columns */
+.trek-navigators-container[data-columns="2"] .trek-navigators-grid-item {
+    width: 50%;
+}
+.trek-navigators-container[data-columns="2"] .trek-navigators-grid-image,
+.trek-navigators-container[data-columns="2"] .trek-navigators-no-image {
+    width: calc(var(--trek-navigators-shortcode-image-size) * 1.25);
+    height: calc(var(--trek-navigators-shortcode-image-size) * 1.25);
+}
+
+/* 3 columns */
+.trek-navigators-container[data-columns="3"] .trek-navigators-grid-item {
+    width: 33.333%;
+}
+.trek-navigators-container[data-columns="3"] .trek-navigators-grid-image,
+.trek-navigators-container[data-columns="3"] .trek-navigators-no-image {
+    width: calc(var(--trek-navigators-shortcode-image-size) * 1.1);
+    height: calc(var(--trek-navigators-shortcode-image-size) * 1.1);
+}
+
+/* 4 columns - default, no adjustment needed */
+
+/* 5 columns */
+.trek-navigators-container[data-columns="5"] .trek-navigators-grid-item {
+    width: 20%;
+}
+.trek-navigators-container[data-columns="5"] .trek-navigators-grid-image,
+.trek-navigators-container[data-columns="5"] .trek-navigators-no-image {
+    width: calc(var(--trek-navigators-shortcode-image-size) * 0.9);
+    height: calc(var(--trek-navigators-shortcode-image-size) * 0.9);
+}
+
+/* 6 columns */
+.trek-navigators-container[data-columns="6"] .trek-navigators-grid-item {
+    width: 16.666%;
+}
+.trek-navigators-container[data-columns="6"] .trek-navigators-grid-image,
+.trek-navigators-container[data-columns="6"] .trek-navigators-no-image {
+    width: calc(var(--trek-navigators-shortcode-image-size) * 0.8);
+    height: calc(var(--trek-navigators-shortcode-image-size) * 0.8);
+}
+
+/* ----------------------------------------
+   5. PAGINATION STYLING
+   ---------------------------------------- */
+.trek-navigators-pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.trek-navigators-pagination .page-numbers {
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    background-color: #f9f9f9;
+    text-decoration: none;
+    color: #333;
+    border-radius: 3px;
+}
+
+.trek-navigators-pagination .page-numbers.current {
+    background-color: #f98e2b;
+    color: white;
+    border-color: #f98e2b;
+}
+
+.trek-navigators-pagination .page-numbers:hover {
+    background-color: #f0f0f0;
+}
+
+/* ----------------------------------------
+   6. NO RESULTS MESSAGE
+   ---------------------------------------- */
 .trek-navigators-none {
     padding: 20px;
     text-align: center;
