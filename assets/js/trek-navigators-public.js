@@ -24,4 +24,6 @@
         });
     }
 
+    // No console logs to comment out in this file
+
 })(jQuery);

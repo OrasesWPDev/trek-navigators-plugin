@@ -13,5 +13,7 @@
 
     // Currently no specific admin JS functionality is needed,
     // but this file is a placeholder for future admin features.
+    
+    // No console logs to comment out in this file
 
 })(jQuery);

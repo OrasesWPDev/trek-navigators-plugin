@@ -212,7 +212,7 @@ function trek_navigators_force_acf_sync() {
 
         // Check if json content is valid
         if (!$json_content) {
-            error_log('Failed to read JSON file: ' . $json_file);
+            // error_log('Failed to read JSON file: ' . $json_file);
             return;
         }
 
@@ -220,23 +220,23 @@ function trek_navigators_force_acf_sync() {
 
         // Check if json_decode was successful
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log('JSON decoding error: ' . json_last_error_msg());
+            // error_log('JSON decoding error: ' . json_last_error_msg());
             return;
         }
 
         // Verify json_data is an array
         if (!is_array($json_data)) {
-            error_log('JSON data is not an array');
+            // error_log('JSON data is not an array');
             return;
         }
 
         acf_add_local_field_group($json_data);
 
-        if (WP_DEBUG) {
+        /*if (WP_DEBUG) {
             error_log('Registered field group: ' . (isset($json_data['title']) ? $json_data['title'] : 'Unknown'));
-        }
+        }*/
     } else {
-        error_log('ACF JSON file not found: ' . $json_file);
+        // error_log('ACF JSON file not found: ' . $json_file);
     }
 }
 add_action('acf/init', 'trek_navigators_force_acf_sync', 20);
@@ -258,9 +258,9 @@ function trek_navigators_clear_cache($post_id) {
     }
 
     // Log clearing cache if debugging is enabled
-    if (WP_DEBUG) {
+    /*if (WP_DEBUG) {
         error_log('Clearing Trek Navigators cache for post ID: ' . $post_id);
-    }
+    }*/
 
     // Method 1: Delete all transients with our prefix using a direct DB query
     global $wpdb;
@@ -313,9 +313,9 @@ function trek_navigators_activate() {
     flush_rewrite_rules();
 
     // Debug log on activation
-    if (WP_DEBUG) {
+    /*if (WP_DEBUG) {
         error_log('Trek Navigators Plugin activated');
-    }
+    }*/
 }
 
 // Deactivation hook
@@ -325,7 +325,7 @@ function trek_navigators_deactivate() {
     flush_rewrite_rules();
 
     // Debug log on deactivation
-    if (WP_DEBUG) {
+    /*if (WP_DEBUG) {
         error_log('Trek Navigators Plugin deactivated');
-    }
+    }*/
 }
