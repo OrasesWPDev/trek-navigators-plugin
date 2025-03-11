@@ -116,6 +116,8 @@ class Trek_Navigators_Shortcodes {
 			echo $cached_output;
 			return ob_get_clean();
 		}
+		
+		// console.log commented out - no debug here
 
 		// Get navigators
 		$navigators = $this->get_navigators($atts);

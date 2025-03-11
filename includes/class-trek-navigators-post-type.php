@@ -34,6 +34,7 @@ class Trek_Navigators_Post_Type {
      * This acts as a fallback if ACF is not handling the registration
      */
     public function register() {
+        // Debug commented out
         // Only register if ACF isn't handling it
         if (trek_navigators_has_acf() && function_exists('acf_get_post_type_posts')) {
             $acf_post_types = acf_get_post_type_posts();

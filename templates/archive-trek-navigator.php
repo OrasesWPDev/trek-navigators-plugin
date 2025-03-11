@@ -20,6 +20,7 @@ $args = array(
 		'title'      => 'ASC'
 	)
 );
+// Debug commented out
 $navigators_query = new WP_Query($args);
 ?>
 

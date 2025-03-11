@@ -101,6 +101,7 @@ class Trek_Navigators_Templates {
      * @param string $name The name of the specialized template.
      */
     public static function get_template_part($slug, $name = null) {
+        // Debug commented out
         // First try to get the template from the theme
         $template = locate_template(array(
             $slug . '-' . $name . '.php',

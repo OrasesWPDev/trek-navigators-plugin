@@ -9,6 +9,7 @@ get_header();
 ?>
 
     <main id="main" class="trek-navigators-single">
+        <?php /* Debug commented out */ ?>
         <?php while (have_posts()) : the_post(); ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class('trek-navigators-article'); ?>>
                 <!-- Header Block - Will contain title and breadcrumbs -->
