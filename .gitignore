@@ -24,5 +24,10 @@ vendor/
 # Compiled assets
 *.min.css
 *.min.js
-*-output.txt
+
+# Aider files
 .aider*
+aider*
+
+# Output files
+*-output.txt
