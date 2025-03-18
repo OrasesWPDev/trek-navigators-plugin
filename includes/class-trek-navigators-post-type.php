@@ -118,7 +118,7 @@ class Trek_Navigators_Post_Type {
             ),
             'has_archive'         => true,
             'rewrite'             => array(
-                'slug'        => 'techtrek/navigators',
+                'slug'        => 'tech-trek/navigators',
                 'with_front'  => false,
                 'feeds'       => false,
                 'pages'       => true
@@ -143,7 +143,7 @@ class Trek_Navigators_Post_Type {
         if (isset($post_type['key']) && $post_type['key'] === 'post_type_trek_navigator') {
             // Ensure the rewrite rules are set up correctly
             $args['rewrite'] = array(
-                'slug' => 'techtrek/navigators',
+                'slug' => 'tech-trek/navigators',
                 'with_front' => false,
                 'feeds' => false,
                 'pages' => true
@@ -171,11 +171,11 @@ class Trek_Navigators_Post_Type {
         $post_title = get_the_title();
         ?>
         <span>
-            <span><a href="<?php echo home_url(); ?>">Home</a></span>
+            <span><a href="<?php echo home_url(); ?>">Ptcb</a></span>
             <span class="trek-navigators-breadcrumb-divider">/</span>
-            <span><a href="<?php echo home_url('/techtrek/'); ?>">TechTrek</a></span>
+            <span><a href="<?php echo home_url('/tech-trek/'); ?>">TechTrek</a></span>
             <span class="trek-navigators-breadcrumb-divider">/</span>
-            <span><a href="<?php echo home_url('/techtrek/navigators/'); ?>">Navigators</a></span>
+            <span><a href="<?php echo home_url('/tech-trek/navigators/'); ?>">Navigators</a></span>
             <span class="trek-navigators-breadcrumb-divider">/</span>
             <span class="breadcrumb_last" aria-current="page"><?php echo esc_html($post_title); ?></span>
         </span>

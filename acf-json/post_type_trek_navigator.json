@@ -78,11 +78,11 @@
       "post_tag",
       "block_categories"
     ],
-    "has_archive": true,
+    "has_archive": false,
     "has_archive_slug": "",
     "rewrite": {
       "permalink_rewrite": "custom",
-      "custom_permalink": "techtrek/navigators/%postname%",
+      "custom_permalink": "tech-trek/navigators/%postname%",
       "with_front": "0",
       "feeds": "0",
       "pages": "1"
