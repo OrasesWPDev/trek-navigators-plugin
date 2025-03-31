@@ -85,8 +85,12 @@ class Trek_Navigators_Templates {
 	 * Override archive page with custom page at same URL
 	 */
 	public function override_archive_with_page() {
-		// Only run when the URL matches our desired pattern
-		if (is_404() && $_SERVER['REQUEST_URI'] == '/tech-trek/navigators/') {
+		// Check for the correct URL pattern in a more flexible way
+		$request_path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+		$navigators_path = '/tech-trek/navigators';
+
+		// Compare the end of the path to handle subdirectories
+		if (is_404() && substr($request_path, -strlen($navigators_path)) === $navigators_path) {
 			// Find a page with the slug 'navigators' and parent 'tech-trek'
 			$tech_trek_page = get_page_by_path('tech-trek');
 
