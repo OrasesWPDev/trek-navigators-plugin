@@ -116,7 +116,7 @@ class Trek_Navigators_Post_Type {
                 'post_tag',
                 'block_categories'
             ),
-            'has_archive'         => true,
+            'has_archive'         => false,
             'rewrite'             => array(
                 'slug'        => 'tech-trek/navigators',
                 'with_front'  => false,

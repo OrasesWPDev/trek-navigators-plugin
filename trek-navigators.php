@@ -93,73 +93,70 @@ function trek_navigators_acf_missing_notice() {
  * to improve site performance.
  */
 function trek_navigators_register_assets() {
-    // Check if we're on a relevant page before loading assets
-    $should_load = false;
-
-    // Check if we're on a Trek Navigator single or archive page
-    if (is_singular('trek-navigator') || is_post_type_archive('trek-navigator')) {
-        $should_load = true;
-    }
-    // Check for category/tag archives that might contain Trek Navigators
-    elseif (is_tax() && get_query_var('post_type') === 'trek-navigator') {
-        $should_load = true;
-    }
-    // Check global $post for shortcodes if available
+	// Check if we're on a relevant page before loading assets
+	$should_load = false;
+	// Check if we're on a Trek Navigator single page
+	if (is_singular('trek-navigator')) {
+		$should_load = true;
+	}
+	// Check global $post for shortcodes if available
     elseif (is_a(get_post(), 'WP_Post')) {
-        // Use get_post()->post_content directly instead of get_the_content()
-        // which requires being in the loop
-        $post_content = get_post()->post_content;
-        if (has_shortcode($post_content, 'trek_navigators') ||
-            has_shortcode($post_content, 'trek_navigator') ||
-            has_shortcode($post_content, 'trek_navigator_breadcrumbs')) {
-            $should_load = true;
-        }
-    }
-
-    // Apply filter to allow theme/plugins to force load our assets
-    $should_load = apply_filters('trek_navigators_load_assets', $should_load);
-
-    // Register assets regardless of whether we'll load them (for potential manual enqueuing)
-    // Main CSS with dynamic versioning
-    $css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-public.css';
-    $css_version = file_exists($css_file) ? filemtime($css_file) : TREK_NAVIGATORS_VERSION;
-
-    wp_register_style(
-        'trek-navigators-public',
-        TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-public.css',
-        array(),
-        $css_version
-    );
-
-    // Responsive CSS with dynamic versioning
-    $responsive_css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-responsive.css';
-    $responsive_css_version = file_exists($responsive_css_file) ? filemtime($responsive_css_file) : TREK_NAVIGATORS_VERSION;
-
-    wp_register_style(
-        'trek-navigators-responsive',
-        TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-responsive.css',
-        array('trek-navigators-public'),
-        $responsive_css_version
-    );
-
-    // JS with dynamic versioning
-    $js_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/js/trek-navigators-public.js';
-    $js_version = file_exists($js_file) ? filemtime($js_file) : TREK_NAVIGATORS_VERSION;
-
-    wp_register_script(
-        'trek-navigators-public',
-        TREK_NAVIGATORS_PLUGIN_URL . 'assets/js/trek-navigators-public.js',
-        array('jquery'),
-        $js_version,
-        true
-    );
-
-    // Only enqueue the assets if we're on a relevant page
-    if ($should_load) {
-        wp_enqueue_style('trek-navigators-public');
-        wp_enqueue_style('trek-navigators-responsive');
-        wp_enqueue_script('trek-navigators-public');
-    }
+		// Use get_post()->post_content directly instead of get_the_content()
+		// which requires being in the loop
+		$post_content = get_post()->post_content;
+		if (has_shortcode($post_content, 'trek_navigators') ||
+		    has_shortcode($post_content, 'trek_navigator') ||
+		    has_shortcode($post_content, 'trek_navigator_breadcrumbs')) {
+			$should_load = true;
+		}
+	}
+	// Apply filter to allow theme/plugins to force load our assets
+	$should_load = apply_filters('trek_navigators_load_assets', $should_load);
+	// Register assets regardless of whether we'll load them (for potential manual enqueuing)
+	// Main CSS with dynamic versioning
+	$css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-public.css';
+	$css_version = file_exists($css_file) ? filemtime($css_file) : TREK_NAVIGATORS_VERSION;
+	wp_register_style(
+		'trek-navigators-public',
+		TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-public.css',
+		array(),
+		$css_version
+	);
+	// Responsive CSS with dynamic versioning
+	$responsive_css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-responsive.css';
+	$responsive_css_version = file_exists($responsive_css_file) ? filemtime($responsive_css_file) : TREK_NAVIGATORS_VERSION;
+	wp_register_style(
+		'trek-navigators-responsive',
+		TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-responsive.css',
+		array('trek-navigators-public'),
+		$responsive_css_version
+	);
+	// Shortcode CSS with dynamic versioning
+	$shortcode_css_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/css/trek-navigators-shortcodes.css';
+	$shortcode_css_version = file_exists($shortcode_css_file) ? filemtime($shortcode_css_file) : TREK_NAVIGATORS_VERSION;
+	wp_register_style(
+		'trek-navigators-shortcode',
+		TREK_NAVIGATORS_PLUGIN_URL . 'assets/css/trek-navigators-shortcodes.css',
+		array('trek-navigators-public'),
+		$shortcode_css_version
+	);
+	// JS with dynamic versioning
+	$js_file = TREK_NAVIGATORS_PLUGIN_PATH . 'assets/js/trek-navigators-public.js';
+	$js_version = file_exists($js_file) ? filemtime($js_file) : TREK_NAVIGATORS_VERSION;
+	wp_register_script(
+		'trek-navigators-public',
+		TREK_NAVIGATORS_PLUGIN_URL . 'assets/js/trek-navigators-public.js',
+		array('jquery'),
+		$js_version,
+		true
+	);
+	// Only enqueue the assets if we're on a relevant page
+	if ($should_load) {
+		wp_enqueue_style('trek-navigators-public');
+		wp_enqueue_style('trek-navigators-responsive');
+		wp_enqueue_style('trek-navigators-shortcode');
+		wp_enqueue_script('trek-navigators-public');
+	}
 }
 
 /**
