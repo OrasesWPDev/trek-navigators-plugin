@@ -22,7 +22,7 @@ class Trek_Navigators_Templates {
 		add_filter('single_template', array($this, 'single_template'));
 		add_filter('archive_template', array($this, 'archive_template'));
 		// Add action to override archive with custom page
-		add_action('template_redirect', array($this, 'override_archive_with_page'), 5);
+		add_action('template_redirect', array($this, 'override_archive_with_page'), 99);
 	}
 
 	/**
@@ -83,15 +83,10 @@ class Trek_Navigators_Templates {
 
 	/**
 	 * Override archive page with custom page at same URL
-	 *
-	 * This method intercepts requests to the trek-navigator archive page
-	 * and loads a custom page with the path 'tech-trek/navigators' instead.
-	 * This allows you to create a normal WordPress page at that URL and
-	 * use the Flatsome UX Builder to design it, while preserving the URL structure.
 	 */
 	public function override_archive_with_page() {
-		// Only run on trek-navigator archive
-		if (is_post_type_archive('trek-navigator')) {
+		// Only run when the URL matches our desired pattern
+		if (is_404() && $_SERVER['REQUEST_URI'] == '/tech-trek/navigators/') {
 			// Find a page with the slug 'navigators' and parent 'tech-trek'
 			$tech_trek_page = get_page_by_path('tech-trek');
 

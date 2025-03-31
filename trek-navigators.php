@@ -298,21 +298,39 @@ add_action('delete_post', 'trek_navigators_clear_cache');
 add_action('trashed_post', 'trek_navigators_clear_cache');
 add_action('untrashed_post', 'trek_navigators_clear_cache');
 
+
+/**
+ * Add custom rewrite rules for single navigator posts
+ */
+function trek_navigators_add_rewrite_rules() {
+	add_rewrite_rule(
+		'tech-trek/navigators/([^/]+)/?$',
+		'index.php?trek-navigator=$matches[1]',
+		'top'
+	);
+}
+add_action('init', 'trek_navigators_add_rewrite_rules', 10);
+
+// Modify the existing activation function
+
 // Activation hook
 register_activation_hook(__FILE__, 'trek_navigators_activate');
 function trek_navigators_activate() {
-    // Include post type file to register it before flushing
-    require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-post-type.php';
-    $post_type = new Trek_Navigators_Post_Type();
-    $post_type->register();
+	// Include post type file to register it before flushing
+	require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-post-type.php';
+	$post_type = new Trek_Navigators_Post_Type();
+	$post_type->register();
 
-    // Flush rewrite rules
-    flush_rewrite_rules();
+	// Add the custom rewrite rule before flushing
+	trek_navigators_add_rewrite_rules();
 
-    // Debug log on activation
-    /*if (WP_DEBUG) {
-        error_log('Trek Navigators Plugin activated');
-    }*/
+	// Flush rewrite rules
+	flush_rewrite_rules();
+
+	// Debug log on activation
+	/*if (WP_DEBUG) {
+		error_log('Trek Navigators Plugin activated');
+	}*/
 }
 
 // Deactivation hook
