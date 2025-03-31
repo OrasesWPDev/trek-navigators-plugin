@@ -116,7 +116,7 @@ class Trek_Navigators_Post_Type {
                 'post_tag',
                 'block_categories'
             ),
-            'has_archive'         => false,
+            'has_archive'         => false, // Ensure this is false to disable the archive template
             'rewrite'             => array(
                 'slug'        => 'tech-trek/navigators',
                 'with_front'  => false,

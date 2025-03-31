@@ -300,12 +300,20 @@ add_action('untrashed_post', 'trek_navigators_clear_cache');
 
 
 /**
- * Add custom rewrite rules for single navigator posts
+ * Add custom rewrite rules for single navigator posts and pagination
  */
 function trek_navigators_add_rewrite_rules() {
+	// Rule for single navigator posts
 	add_rewrite_rule(
 		'tech-trek/navigators/([^/]+)/?$',
 		'index.php?trek-navigator=$matches[1]',
+		'top'
+	);
+	
+	// Rule for pagination on the custom page
+	add_rewrite_rule(
+		'tech-trek/navigators/page/([0-9]+)/?$',
+		'index.php?pagename=tech-trek/navigators&paged=$matches[1]',
 		'top'
 	);
 }

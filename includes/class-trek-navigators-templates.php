@@ -88,30 +88,41 @@ class Trek_Navigators_Templates {
 		// Check for the correct URL pattern in a more flexible way
 		$request_path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 		$navigators_path = '/tech-trek/navigators';
-
-		// Compare the end of the path to handle subdirectories
-		if (is_404() && substr($request_path, -strlen($navigators_path)) === $navigators_path) {
+		
+		// Check if this is the navigator archive path or a paginated version of it
+		if ((is_post_type_archive('trek-navigator') || 
+			(is_404() && substr($request_path, -strlen($navigators_path)) === $navigators_path)) &&
+			!is_singular('trek-navigator')) {
+			
 			// Find a page with the slug 'navigators' and parent 'tech-trek'
-			$tech_trek_page = get_page_by_path('tech-trek');
-
-			if ($tech_trek_page) {
-				$custom_page = get_page_by_path('tech-trek/navigators');
-
-				if ($custom_page) {
-					// Set the query to use this page instead
-					global $wp_query;
-					$wp_query = new WP_Query(['page_id' => $custom_page->ID]);
-
-					// Update globals
-					$wp_query->the_post();
-					rewind_posts();
-
-					// Load page template
-					include(get_page_template());
-
-					// Stop execution to prevent the archive template from loading
-					exit;
+			$custom_page = get_page_by_path('tech-trek/navigators');
+			
+			if ($custom_page) {
+				// Get current page for pagination - check both query vars
+				$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+				if (!$paged && get_query_var('page')) {
+					$paged = get_query_var('page');
 				}
+				
+				// Set the query to use this page instead
+				global $wp_query;
+				$wp_query = new WP_Query([
+					'page_id' => $custom_page->ID,
+					'paged' => $paged
+				]);
+				
+				// Set the query var for shortcodes to use
+				set_query_var('paged', $paged);
+				
+				// Update globals
+				$wp_query->the_post();
+				rewind_posts();
+				
+				// Load page template
+				include(get_page_template());
+				
+				// Stop execution to prevent the archive template from loading
+				exit;
 			}
 		}
 	}

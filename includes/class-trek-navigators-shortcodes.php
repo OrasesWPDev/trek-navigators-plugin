@@ -48,6 +48,9 @@ class Trek_Navigators_Shortcodes {
 	public function trek_navigators_grid_shortcode($atts) {
 		// Enqueue styles
 		wp_enqueue_style('trek-navigators-shortcode');
+		wp_enqueue_style('trek-navigators-public');
+		wp_enqueue_style('trek-navigators-responsive');
+		
 		// Shortcode attributes
 		$atts = shortcode_atts(
 			array(
@@ -140,6 +143,7 @@ class Trek_Navigators_Shortcodes {
 				if (empty($image)) {
 					$image = '<div class="trek-navigators-no-image"><div class="trek-navigators-placeholder">' . esc_html($title) . '</div></div>';
 				}
+				
 				// Output navigator item - using the same structure as archive template
 				?>
                 <div class="trek-navigators-grid-item">
@@ -147,6 +151,11 @@ class Trek_Navigators_Shortcodes {
                         <div class="trek-navigators-grid-image-wrapper">
 							<?php echo $image; ?>
                         </div>
+                        <?php if ($atts['show_title']): ?>
+                        <div class="trek-navigators-grid-title">
+                            <h3><?php echo esc_html($title); ?></h3>
+                        </div>
+                        <?php endif; ?>
                     </a>
                 </div>
 				<?php
@@ -160,8 +169,11 @@ class Trek_Navigators_Shortcodes {
 				global $wp_query;
 				$big = 999999999; // Need an unlikely integer
 
-				// Get the current page
+				// Get the current page - check both query vars
 				$current_page = get_query_var('paged') ? get_query_var('paged') : 1;
+				if (!$current_page && get_query_var('page')) {
+					$current_page = get_query_var('page');
+				}
 
 				// Store the original query to restore later
 				$temp_query = $wp_query;
@@ -169,10 +181,17 @@ class Trek_Navigators_Shortcodes {
 				// Set our custom query temporarily to generate proper pagination
 				$wp_query = $navigators;
 
+				// Get the current URL path for proper base URL
+				$current_url = home_url(add_query_arg(array(), $wp_query->request));
+				$base_url = trailingslashit(get_pagenum_link(1));
+					
+				// Remove any existing pagination from the base URL
+				$base_url = preg_replace('/page\/[0-9]+\//', '', $base_url);
+					
 				echo '<div class="trek-navigators-pagination">';
 				echo paginate_links(array(
-					'base'         => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-					'format'       => '?paged=%#%',
+					'base'         => $base_url . 'page/%#%/',
+					'format'       => '',
 					'current'      => max(1, $current_page),
 					'total'        => $navigators->max_num_pages,
 					'prev_text'    => '<< Previous',
@@ -342,14 +361,18 @@ class Trek_Navigators_Shortcodes {
 	 * @return WP_Query Trek Navigators query.
 	 */
 	private function get_navigators($atts) {
-		// Get current page for pagination
-		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		// Get current page for pagination - check both query vars
+		$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+		if (!$paged && get_query_var('page')) {
+			$paged = get_query_var('page');
+		}
 
 		// Query arguments
 		$args = array(
 			'post_type'      => 'trek-navigator',
 			'posts_per_page' => $atts['posts_per_page'],
 			'paged'          => $paged,
+			'post_status'    => 'publish',
 		);
 
 		// Handle custom orderby parameter that includes multiple fields
