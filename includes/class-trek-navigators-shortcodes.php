@@ -50,7 +50,6 @@ class Trek_Navigators_Shortcodes {
 		wp_enqueue_style('trek-navigators-shortcode');
 		wp_enqueue_style('trek-navigators-public');
 		wp_enqueue_style('trek-navigators-responsive');
-		
 		// Shortcode attributes
 		$atts = shortcode_atts(
 			array(
@@ -60,6 +59,7 @@ class Trek_Navigators_Shortcodes {
 				'posts_per_page'  => 12,         // Number of navigators to display
 				'pagination'      => 'true',     // Changed default from 'false' to 'true'
 				'single_row'      => 'false',    // Whether to display items in a single row
+				'layout'          => 'archive',  // 'archive' or 'row' display mode
 				// Ordering parameters
 				'order'           => 'ASC',      // ASC or DESC
 				'orderby'         => 'menu_order title',    // Changed to match archive query
@@ -88,17 +88,32 @@ class Trek_Navigators_Shortcodes {
 			$atts,
 			'trek_navigators'
 		);
+
 		// Convert string booleans to actual booleans
 		foreach (array('pagination', 'show_image', 'show_title', 'show_date', 'show_badge', 'show_read_more', 'cache', 'single_row') as $bool_att) {
 			$atts[$bool_att] = filter_var($atts[$bool_att], FILTER_VALIDATE_BOOLEAN);
 		}
+
 		// Convert numeric attributes
 		$atts['columns'] = intval($atts['columns']);
 		$atts['posts_per_page'] = intval($atts['posts_per_page']);
 		$atts['excerpt_length'] = intval($atts['excerpt_length']);
 		$atts['offset'] = intval($atts['offset']);
+
+		// Handle layout parameter - override some settings based on layout
+		if ($atts['layout'] === 'row') {
+			$atts['columns'] = 4;
+			$atts['posts_per_page'] = 4;
+			$atts['pagination'] = false;
+			$atts['single_row'] = true;
+			$atts['show_title'] = false;
+			$atts['orderby'] = 'date';
+			$atts['order'] = 'DESC'; // Most recent first
+		}
+
 		// Start output buffering
 		ob_start();
+
 		// Get cached output if caching is enabled
 		$cache_key = 'trek_navigators_' . md5(serialize($atts));
 		$cached_output = $atts['cache'] ? get_transient($cache_key) : false;
@@ -106,30 +121,43 @@ class Trek_Navigators_Shortcodes {
 			echo $cached_output;
 			return ob_get_clean();
 		}
+
 		// Get navigators
 		$navigators = $this->get_navigators($atts);
+
 		// Check if any navigators exist
 		if ($navigators && $navigators->have_posts()) {
 			// Add container class based on display type
 			$container_class = 'trek-navigators-grid-container';
+
+			// Add class for archive layout
+			if ($atts['layout'] === 'archive') {
+				$container_class .= ' trek-navigators-archive';
+			}
+
 			// Add single row class if enabled
-			if (filter_var($atts['single_row'], FILTER_VALIDATE_BOOLEAN)) {
+			if ($atts['layout'] === 'row' || filter_var($atts['single_row'], FILTER_VALIDATE_BOOLEAN)) {
 				$container_class .= ' single-row-display';
 			}
+
 			// Add custom class if provided
 			if (!empty($atts['class'])) {
 				$container_class .= ' ' . esc_attr($atts['class']);
 			}
+
 			// Output container
 			echo '<div class="' . esc_attr($container_class) . '" data-columns="' . esc_attr($atts['columns']) . '">';
 			echo '<div class="trek-navigators-grid">';
+
 			while ($navigators->have_posts()) {
 				$navigators->the_post();
+
 				// Get navigator data
 				$id = get_the_ID();
 				$title = get_the_title();
 				$permalink = get_permalink();
 				$image = '';
+
 				// Get image
 				if (has_post_thumbnail()) {
 					$image = get_the_post_thumbnail($id, $atts['image_size'], array(
@@ -140,15 +168,18 @@ class Trek_Navigators_Shortcodes {
 					// Try to get header image from ACF
 					$header_image = get_field('navigator_header_image', $id);
 					if ($header_image && is_array($header_image)) {
-						$image_src = $header_image['sizes'][$atts['image_size']] ?? $header_image['url'];
+						$image_src = isset($header_image['sizes'][$atts['image_size']])
+							? $header_image['sizes'][$atts['image_size']]
+							: $header_image['url'];
 						$image = '<img src="' . esc_url($image_src) . '" alt="' . esc_attr($title) . '" class="trek-navigators-grid-image" />';
 					}
 				}
+
 				// If no image is available, show a placeholder
 				if (empty($image)) {
 					$image = '<div class="trek-navigators-no-image"><div class="trek-navigators-placeholder">' . esc_html($title) . '</div></div>';
 				}
-				
+
 				// Output navigator item - using the same structure as archive template
 				?>
                 <div class="trek-navigators-grid-item">
@@ -156,15 +187,16 @@ class Trek_Navigators_Shortcodes {
                         <div class="trek-navigators-grid-image-wrapper">
 							<?php echo $image; ?>
                         </div>
-                        <?php if ($atts['show_title']): ?>
-                        <div class="trek-navigators-grid-title">
-                            <h3><?php echo esc_html($title); ?></h3>
-                        </div>
-                        <?php endif; ?>
+						<?php if ($atts['show_title']): ?>
+                            <div class="trek-navigators-grid-title">
+                                <h3><?php echo esc_html($title); ?></h3>
+                            </div>
+						<?php endif; ?>
                     </a>
                 </div>
 				<?php
 			}
+
 			// Close grid
 			echo '</div>';
 
@@ -172,7 +204,6 @@ class Trek_Navigators_Shortcodes {
 			// on custom pages using the shortcode
 			if ($atts['pagination'] && $navigators->max_num_pages > 1) {
 				global $wp_query;
-				$big = 999999999; // Need an unlikely integer
 
 				// Get the current page - check both query vars
 				$current_page = get_query_var('paged') ? get_query_var('paged') : 1;
@@ -189,10 +220,10 @@ class Trek_Navigators_Shortcodes {
 				// Get the current URL path for proper base URL
 				$current_url = home_url(add_query_arg(array(), $wp_query->request));
 				$base_url = trailingslashit(get_pagenum_link(1));
-					
+
 				// Remove any existing pagination from the base URL
 				$base_url = preg_replace('/page\/[0-9]+\//', '', $base_url);
-					
+
 				echo '<div class="trek-navigators-pagination">';
 				echo paginate_links(array(
 					'base'         => $base_url . 'page/%#%/',
@@ -222,12 +253,15 @@ class Trek_Navigators_Shortcodes {
 			// No navigators found
 			echo '<p class="trek-navigators-none">' . __('No Trek Navigators found.', 'trek-navigators') . '</p>';
 		}
+
 		// Get buffer contents and clean buffer
 		$output = ob_get_clean();
+
 		// Cache the output if caching is enabled
 		if ($atts['cache']) {
 			set_transient($cache_key, $output, HOUR_IN_SECONDS);
 		}
+
 		return $output;
 	}
 
@@ -380,19 +414,26 @@ class Trek_Navigators_Shortcodes {
 			'post_status'    => 'publish',
 		);
 
-		// Handle custom orderby parameter that includes multiple fields
-		if (strpos($atts['orderby'], ' ') !== false) {
-			// Multiple orderby parameters (like "menu_order title")
-			$orderby_parts = explode(' ', $atts['orderby']);
-			$orderby_array = array();
-			foreach ($orderby_parts as $part) {
-				$orderby_array[$part] = $atts['order'];
-			}
-			$args['orderby'] = $orderby_array;
+		// Set order parameters based on layout or explicit parameters
+		if ($atts['layout'] === 'row') {
+			// For row layout, show most recent posts
+			$args['orderby'] = 'date';
+			$args['order'] = 'DESC';
 		} else {
-			// Single orderby parameter
-			$args['order'] = $atts['order'];
-			$args['orderby'] = $atts['orderby'];
+			// Handle custom orderby parameter that includes multiple fields
+			if (strpos($atts['orderby'], ' ') !== false) {
+				// Multiple orderby parameters (like "menu_order title")
+				$orderby_parts = explode(' ', $atts['orderby']);
+				$orderby_array = array();
+				foreach ($orderby_parts as $part) {
+					$orderby_array[$part] = $atts['order'];
+				}
+				$args['orderby'] = $orderby_array;
+			} else {
+				// Single orderby parameter
+				$args['order'] = $atts['order'];
+				$args['orderby'] = $atts['orderby'];
+			}
 		}
 
 		// Add meta key for ordering if specified
@@ -430,6 +471,16 @@ class Trek_Navigators_Shortcodes {
 		if (!empty($atts['exclude'])) {
 			$exclude_ids = array_map('intval', explode(',', $atts['exclude']));
 			$args['post__not_in'] = $exclude_ids;
+		}
+
+		// Apply offset if specified
+		if ($atts['offset'] > 0) {
+			// When using pagination, adjust the offset based on the page number
+			if ($paged > 1 && $atts['pagination']) {
+				$args['offset'] = $atts['offset'] + (($paged - 1) * $atts['posts_per_page']);
+			} else {
+				$args['offset'] = $atts['offset'];
+			}
 		}
 
 		// Create and return query

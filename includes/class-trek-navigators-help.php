@@ -206,6 +206,13 @@ private function get_admin_styles() {
 						<td><code>grid</code>, <code>list</code></td>
 						<td><code>display_type="list"</code></td>
 					</tr>
+                    <tr>
+                        <td><code>layout</code></td>
+                        <td><?php esc_html_e('Layout style for navigators display', 'trek-navigators'); ?></td>
+                        <td><code>archive</code></td>
+                        <td><code>archive</code>, <code>row</code></td>
+                        <td><code>layout="row"</code></td>
+                    </tr>
 					<tr>
 						<td><code>columns</code></td>
 						<td><?php esc_html_e('Number of columns in grid view', 'trek-navigators'); ?></td>
@@ -406,21 +413,23 @@ private function get_admin_styles() {
 					</tr>
 				</table>
 
-				<h3><?php esc_html_e('Example Shortcodes', 'trek-navigators'); ?></h3>
-				<p><?php esc_html_e('Basic grid with 3 columns:', 'trek-navigators'); ?></p>
-				<div class="trek-navigators-shortcode-example">
-					[trek_navigators columns="3" posts_per_page="6"]
-				</div>
-
-				<p><?php esc_html_e('List display with pagination:', 'trek-navigators'); ?></p>
-				<div class="trek-navigators-shortcode-example">
-					[trek_navigators display_type="list" pagination="true" posts_per_page="10"]
-				</div>
-
-				<p><?php esc_html_e('Navigators from a specific category, randomly ordered:', 'trek-navigators'); ?></p>
-				<div class="trek-navigators-shortcode-example">
-					[trek_navigators category="featured-navigators" orderby="rand"]
-				</div>
+                <h3><?php esc_html_e('Example Shortcodes', 'trek-navigators'); ?></h3>
+                <p><?php esc_html_e('Archive-style display (default, 3 columns, 12 per page with pagination):', 'trek-navigators'); ?></p>
+                <div class="trek-navigators-shortcode-example">
+                    [trek_navigators]
+                </div>
+                <p><?php esc_html_e('Show only 4 most recent navigators in a single row:', 'trek-navigators'); ?></p>
+                <div class="trek-navigators-shortcode-example">
+                    [trek_navigators layout="row"]
+                </div>
+                <p><?php esc_html_e('List display with pagination:', 'trek-navigators'); ?></p>
+                <div class="trek-navigators-shortcode-example">
+                    [trek_navigators display_type="list" pagination="true" posts_per_page="10"]
+                </div>
+                <p><?php esc_html_e('Navigators from a specific category, randomly ordered:', 'trek-navigators'); ?></p>
+                <div class="trek-navigators-shortcode-example">
+                    [trek_navigators category="featured-navigators" orderby="rand"]
+                </div>
 			</div>
 
 			<!-- Single Navigator Shortcode Section -->
