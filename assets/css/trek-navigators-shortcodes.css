@@ -36,6 +36,8 @@
 .trek-navigators-grid-item {
     box-sizing: border-box;
     padding: var(--trek-navigators-item-padding);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Default column width for archive (3 columns) */
@@ -142,6 +144,9 @@
 }
 
 /* 4 columns - default, no adjustment needed */
+.trek-navigators-container[data-columns="4"] .trek-navigators-grid-item {
+    width: 25%;
+}
 
 /* 5 columns */
 .trek-navigators-container[data-columns="5"] .trek-navigators-grid-item {
@@ -161,6 +166,36 @@
 .trek-navigators-container[data-columns="6"] .trek-navigators-no-image {
     width: calc(var(--trek-navigators-shortcode-image-size) * 0.8);
     height: calc(var(--trek-navigators-shortcode-image-size) * 0.8);
+}
+
+/* Single row display for specific use cases */
+.trek-navigators-container.single-row-display .trek-navigators-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+.trek-navigators-container.single-row-display .trek-navigators-grid-item {
+    flex: 0 0 auto;
+    margin-right: 2%;
+}
+
+.trek-navigators-container.single-row-display .trek-navigators-grid-item:last-child {
+    margin-right: 0;
+}
+
+/* Specific column widths for single row display */
+.trek-navigators-container.single-row-display[data-columns="4"] .trek-navigators-grid-item {
+    flex: 0 0 23.5%;
+}
+
+.trek-navigators-container.single-row-display[data-columns="3"] .trek-navigators-grid-item {
+    flex: 0 0 32%;
+}
+
+.trek-navigators-container.single-row-display[data-columns="2"] .trek-navigators-grid-item {
+    flex: 0 0 49%;
 }
 
 /* ----------------------------------------

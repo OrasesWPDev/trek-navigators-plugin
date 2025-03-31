@@ -316,6 +316,20 @@ function trek_navigators_add_rewrite_rules() {
 		'index.php?pagename=tech-trek/navigators&paged=$matches[1]',
 		'top'
 	);
+	
+	// Add a rule for the base URL to ensure it goes to the custom page
+	add_rewrite_rule(
+		'tech-trek/navigators/?$',
+		'index.php?pagename=tech-trek/navigators',
+		'top'
+	);
+	
+	// Add a rule to handle potential archive URLs
+	add_rewrite_rule(
+		'tech-trek/navigators/page/?([0-9]{1,})/?$',
+		'index.php?pagename=tech-trek/navigators&paged=$matches[1]',
+		'top'
+	);
 }
 add_action('init', 'trek_navigators_add_rewrite_rules', 10);
 
@@ -340,6 +354,19 @@ function trek_navigators_activate() {
 		error_log('Trek Navigators Plugin activated');
 	}*/
 }
+
+// Function to manually flush rewrite rules
+function trek_navigators_flush_rules() {
+	// Add the custom rewrite rules
+	trek_navigators_add_rewrite_rules();
+	
+	// Flush rewrite rules
+	flush_rewrite_rules();
+}
+
+// Add an action to flush rules when the plugin is loaded
+// This ensures rules are updated without requiring deactivation/reactivation
+add_action('init', 'trek_navigators_flush_rules', 20);
 
 // Deactivation hook
 register_deactivation_hook(__FILE__, 'trek_navigators_deactivate');

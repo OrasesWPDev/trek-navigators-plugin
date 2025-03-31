@@ -89,15 +89,20 @@ class Trek_Navigators_Templates {
 		$request_path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 		$navigators_path = '/tech-trek/navigators';
 		
-		// Check if this is the navigator archive path or a paginated version of it
-		if ((is_post_type_archive('trek-navigator') || 
-			(is_404() && substr($request_path, -strlen($navigators_path)) === $navigators_path)) &&
-			!is_singular('trek-navigator')) {
-			
+		// More aggressive check for the navigator URL
+		$is_navigator_url = (
+			is_post_type_archive('trek-navigator') || 
+			(is_404() && substr($request_path, -strlen($navigators_path)) === $navigators_path) ||
+			$request_path === $navigators_path ||
+			strpos($request_path, $navigators_path) !== false
+		) && !is_singular('trek-navigator');
+		
+		if ($is_navigator_url) {
 			// Find a page with the slug 'navigators' and parent 'tech-trek'
 			$custom_page = get_page_by_path('tech-trek/navigators');
 			
 			if ($custom_page) {
+				
 				// Get current page for pagination - check both query vars
 				$paged = get_query_var('paged') ? get_query_var('paged') : 1;
 				if (!$paged && get_query_var('page')) {
@@ -123,6 +128,8 @@ class Trek_Navigators_Templates {
 				
 				// Stop execution to prevent the archive template from loading
 				exit;
+			} else {
+				error_log('Custom page not found for tech-trek/navigators');
 			}
 		}
 	}

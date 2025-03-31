@@ -59,6 +59,7 @@ class Trek_Navigators_Shortcodes {
 				'columns'         => 3,          // Changed default from 4 to 3 columns in grid view
 				'posts_per_page'  => 12,         // Number of navigators to display
 				'pagination'      => 'true',     // Changed default from 'false' to 'true'
+				'single_row'      => 'false',    // Whether to display items in a single row
 				// Ordering parameters
 				'order'           => 'ASC',      // ASC or DESC
 				'orderby'         => 'menu_order title',    // Changed to match archive query
@@ -88,7 +89,7 @@ class Trek_Navigators_Shortcodes {
 			'trek_navigators'
 		);
 		// Convert string booleans to actual booleans
-		foreach (array('pagination', 'show_image', 'show_title', 'show_date', 'show_badge', 'show_read_more', 'cache') as $bool_att) {
+		foreach (array('pagination', 'show_image', 'show_title', 'show_date', 'show_badge', 'show_read_more', 'cache', 'single_row') as $bool_att) {
 			$atts[$bool_att] = filter_var($atts[$bool_att], FILTER_VALIDATE_BOOLEAN);
 		}
 		// Convert numeric attributes
@@ -111,6 +112,10 @@ class Trek_Navigators_Shortcodes {
 		if ($navigators && $navigators->have_posts()) {
 			// Add container class based on display type
 			$container_class = 'trek-navigators-grid-container';
+			// Add single row class if enabled
+			if (filter_var($atts['single_row'], FILTER_VALIDATE_BOOLEAN)) {
+				$container_class .= ' single-row-display';
+			}
 			// Add custom class if provided
 			if (!empty($atts['class'])) {
 				$container_class .= ' ' . esc_attr($atts['class']);
