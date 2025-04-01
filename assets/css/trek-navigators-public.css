@@ -354,6 +354,26 @@
 }
 
 /* ----------------------------------------
+   13-A. ROW LAYOUT SHORTCODE STYLING
+   ---------------------------------------- */
+.trek-navigators-row-layout .trek-navigators-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: -10px;
+    width: 100%;
+}
+
+.trek-navigators-row-layout .trek-navigators-grid-item {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    flex: 0 0 25%;
+}
+
+
+
+/* ----------------------------------------
    14. SINGLE PAGE TITLE STYLING
    ---------------------------------------- */
 .trek-navigators-single-title {

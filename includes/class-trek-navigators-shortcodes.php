@@ -209,6 +209,7 @@ class Trek_Navigators_Shortcodes {
 			// Add single row class if enabled
 			if ($atts['layout'] === 'row' || $atts['single_row']) {
 				$container_class .= ' single-row-display';
+				$container_class .= ' trek-navigators-row-layout';
 			}
 
 			// Add custom class if provided
@@ -271,7 +272,7 @@ class Trek_Navigators_Shortcodes {
                         <div class="trek-navigators-grid-image-wrapper">
 							<?php echo $image; ?>
                         </div>
-					</a>
+                    </a>
                 </div>
 				<?php
 			}
