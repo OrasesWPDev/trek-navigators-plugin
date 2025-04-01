@@ -35,12 +35,34 @@
             var shortcodeData = $container.data('shortcode');
             console.log('Shortcode data:', shortcodeData);
 
-            // Extract page number
-            var pageNum = getPageNumberFromUrl(targetUrl);
-            console.log('Page number extracted:', pageNum);
+            // Extract page number from URL or use class instead for empty URLs
+            var pageNum;
+            if (targetUrl && targetUrl.length > 0) {
+                pageNum = getPageNumberFromUrl(targetUrl);
+            } else {
+                // For empty URLs, try to determine the page from classes
+                if ($this.hasClass('prev')) {
+                    // Get current page from pagination and go back one
+                    var currentPage = $pagination.find('.current').text();
+                    pageNum = parseInt(currentPage, 10) - 1;
+                    if (pageNum < 1) pageNum = 1;
+                } else if ($this.hasClass('next')) {
+                    // Get current page from pagination and go forward one
+                    var currentPage = $pagination.find('.current').text();
+                    pageNum = parseInt(currentPage, 10) + 1;
+                } else {
+                    // Get page from the link text
+                    pageNum = parseInt($this.text(), 10);
+                    if (isNaN(pageNum)) pageNum = 1;
+                }
+            }
+
+            console.log('Page number to load:', pageNum);
 
             // Show loading indicator
             $container.append('<div class="trek-navigators-loading">Loading...</div>');
+
+            // Rest of the function remains the same...
 
             // AJAX request to get new content
             $.ajax({

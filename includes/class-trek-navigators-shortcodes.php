@@ -271,12 +271,7 @@ class Trek_Navigators_Shortcodes {
                         <div class="trek-navigators-grid-image-wrapper">
 							<?php echo $image; ?>
                         </div>
-						<?php if ($atts['show_title']): ?>
-                            <div class="trek-navigators-grid-title">
-                                <h3><?php echo esc_html($title); ?></h3>
-                            </div>
-						<?php endif; ?>
-                    </a>
+					</a>
                 </div>
 				<?php
 			}
