@@ -158,29 +158,29 @@ class Trek_Navigators_Post_Type {
         return $args;
     }
 
-    /**
-     * Breadcrumb shortcode callback
-     */
-    public function breadcrumbs_shortcode() {
-        if (!is_singular('trek-navigator')) {
-            return do_shortcode('[wpseo_breadcrumb]'); // Fallback to Yoast if available
-        }
+	/**
+	 * Breadcrumb shortcode callback
+	 */
+	public function breadcrumbs_shortcode() {
+		if (!is_singular('trek-navigator')) {
+			return do_shortcode('[wpseo_breadcrumb]'); // Fallback to Yoast if available
+		}
 
-        ob_start();
+		ob_start();
 
-        $post_title = get_the_title();
-        ?>
+		$post_title = get_the_title();
+		?>
         <span>
-            <span><a href="<?php echo home_url(); ?>">Ptcb</a></span>
-            <span class="trek-navigators-breadcrumb-divider">/</span>
-            <span><a href="<?php echo home_url('/tech-trek/'); ?>">TechTrek</a></span>
-            <span class="trek-navigators-breadcrumb-divider">/</span>
-            <span><a href="<?php echo home_url('/tech-trek/navigators/'); ?>">Navigators</a></span>
-            <span class="trek-navigators-breadcrumb-divider">/</span>
-            <span class="breadcrumb_last" aria-current="page"><?php echo esc_html($post_title); ?></span>
-        </span>
-        <?php
+        <span><a href="<?php echo home_url(); ?>">Ptcb</a></span>
+        <span class="trek-navigators-breadcrumb-divider">/</span>
+        <span><a href="<?php echo home_url('/tech-trek/'); ?>">Take the Next Step on your Tech Trek Today</a></span>
+        <span class="trek-navigators-breadcrumb-divider">/</span>
+        <span><a href="<?php echo home_url('/tech-trek/navigators/'); ?>">Meet the Tech Trek Navigators</a></span>
+        <span class="trek-navigators-breadcrumb-divider">/</span>
+        <span class="breadcrumb_last" aria-current="page"><?php echo esc_html($post_title); ?></span>
+    </span>
+		<?php
 
-        return ob_get_clean();
-    }
+		return ob_get_clean();
+	}
 }
