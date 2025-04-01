@@ -59,8 +59,12 @@ class Trek_Navigators_Ajax {
 	 * AJAX handler for loading Trek Navigator pages
 	 */
 	public function load_page() {
+		// Log the request for debugging
+		error_log('Trek Navigators AJAX request received: ' . print_r($_POST, true));
+
 		// Verify nonce
 		if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'trek_navigators_ajax_nonce')) {
+			error_log('Trek Navigators AJAX: Invalid nonce');
 			wp_send_json_error('Invalid security token');
 			return;
 		}

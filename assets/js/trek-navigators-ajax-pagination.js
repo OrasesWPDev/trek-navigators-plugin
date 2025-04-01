@@ -10,6 +10,7 @@
     $(document).ready(function() {
         // Initialize AJAX pagination for Trek Navigators
         initTrekNavigatorsAjaxPagination();
+        console.log('Trek Navigators AJAX pagination script loaded');
     });
 
     /**
@@ -26,14 +27,20 @@
             var $grid = $container.find('.trek-navigators-grid');
             var $pagination = $container.find('.trek-navigators-pagination');
 
+            console.log('Pagination link clicked:', targetUrl);
+            console.log('Container found:', $container.length > 0);
+            console.log('Grid element found:', $grid.length > 0);
+
+            // Get shortcode data
+            var shortcodeData = $container.data('shortcode');
+            console.log('Shortcode data:', shortcodeData);
+
+            // Extract page number
+            var pageNum = getPageNumberFromUrl(targetUrl);
+            console.log('Page number extracted:', pageNum);
+
             // Show loading indicator
             $container.append('<div class="trek-navigators-loading">Loading...</div>');
-
-            // Extract the page number from the URL
-            var pageNum = getPageNumberFromUrl(targetUrl);
-
-            // Get current shortcode attributes from data attribute
-            var shortcodeData = $container.data('shortcode') || {};
 
             // AJAX request to get new content
             $.ajax({
@@ -46,7 +53,9 @@
                     nonce: trek_navigators_ajax.nonce
                 },
                 success: function(response) {
+                    console.log('AJAX response received:', response);
                     if(response.success) {
+                        console.log('AJAX success, updating content');
                         // Update grid content
                         $grid.html(response.data.grid_html);
 
@@ -56,20 +65,20 @@
                         // Update URL without reloading page
                         updateBrowserUrl(targetUrl, pageNum);
 
-                        // Scroll to top of grid
-                        $('html, body').animate({
-                            scrollTop: $container.offset().top - 100
-                        }, 500);
+                        console.log('Content updated successfully');
                     } else {
                         console.error('Error loading Trek Navigators page:', response.data);
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX error:', error);
+                    console.error('Status:', status);
+                    console.error('Response:', xhr.responseText);
                 },
                 complete: function() {
                     // Remove loading indicator
                     $container.find('.trek-navigators-loading').remove();
+                    console.log('Loading indicator removed');
                 }
             });
         });
