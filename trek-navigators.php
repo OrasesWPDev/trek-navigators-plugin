@@ -55,6 +55,9 @@ function trek_navigators_plugin_init() {
 	// Load help/documentation
 	require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-help.php';
 
+	// Load AJAX handling
+	require_once TREK_NAVIGATORS_PLUGIN_PATH . 'includes/class-trek-navigators-ajax.php';
+
     // Initialize classes
     new Trek_Navigators_Post_Type();
     if (trek_navigators_has_acf()) {
@@ -63,6 +66,7 @@ function trek_navigators_plugin_init() {
     new Trek_Navigators_Shortcodes();
     new Trek_Navigators_Templates();
 	new Trek_Navigators_Help();
+	new Trek_Navigators_Ajax();
 
     // Register assets
     add_action('wp_enqueue_scripts', 'trek_navigators_register_assets');

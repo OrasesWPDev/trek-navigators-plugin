@@ -50,35 +50,36 @@ class Trek_Navigators_Shortcodes {
 		wp_enqueue_style('trek-navigators-shortcode');
 		wp_enqueue_style('trek-navigators-public');
 		wp_enqueue_style('trek-navigators-responsive');
+
 		// Shortcode attributes
 		$atts = shortcode_atts(
 			array(
 				// Basic display parameters
 				'display_type'    => 'grid',     // 'grid' or 'list'
-				'columns'         => 3,          // Changed default from 4 to 3 columns in grid view
+				'columns'         => 3,          // 3 columns in grid view by default
 				'posts_per_page'  => 12,         // Number of navigators to display
-				'pagination'      => 'true',     // Changed default from 'false' to 'true'
+				'pagination'      => 'true',     // Enable pagination by default
 				'single_row'      => 'false',    // Whether to display items in a single row
 				'layout'          => 'archive',  // 'archive' or 'row' display mode
 				// Ordering parameters
 				'order'           => 'ASC',      // ASC or DESC
-				'orderby'         => 'menu_order title',    // Changed to match archive query
+				'orderby'         => 'menu_order title',  // Default sorting by menu order then title
 				'meta_key'        => '',         // For ordering by meta_value
 				// Filtering parameters
 				'category'        => '',         // Filter by category slug or ID
 				'tag'             => '',         // Filter by tag slug or ID
 				'include'         => '',         // Specific navigator IDs to include
 				'exclude'         => '',         // Specific navigator IDs to exclude
-				// Layout & content parameters - keeping these for backward compatibility
+				// Layout & content parameters
 				'show_image'      => 'true',     // Whether to show the navigator image
-				'image_size'      => 'large',    // Changed from 'medium' to 'large' to match archive
-				'show_title'      => 'false',    // Display navigator's title (default to false now)
+				'image_size'      => 'large',    // Image size to use
+				'show_title'      => 'false',    // Display navigator's title (default to false)
 				'show_date'       => 'false',    // Display start date
 				'excerpt_length'  => 25,         // Length of excerpt in words
 				'show_badge'      => 'false',    // Whether to show PTCB badges image
 				// Link parameters
 				'link_target'     => '_self',    // Where to open links
-				'show_read_more'  => 'false',    // Display "Read More" link (default to false now)
+				'show_read_more'  => 'false',    // Display "Read More" link
 				'read_more_text'  => 'View Profile', // Custom text for read more link
 				// Advanced parameters
 				'offset'          => 0,          // Number of posts to offset/skip
@@ -114,16 +115,86 @@ class Trek_Navigators_Shortcodes {
 		// Start output buffering
 		ob_start();
 
-		// Get cached output if caching is enabled
-		$cache_key = 'trek_navigators_' . md5(serialize($atts));
-		$cached_output = $atts['cache'] ? get_transient($cache_key) : false;
-		if ($cached_output !== false) {
-			echo $cached_output;
-			return ob_get_clean();
+		// Don't use cache during development for easier testing
+		// $cache_key = 'trek_navigators_' . md5(serialize($atts));
+		// $cached_output = $atts['cache'] ? get_transient($cache_key) : false;
+		// if ($cached_output !== false) {
+		//     echo $cached_output;
+		//     return ob_get_clean();
+		// }
+
+		// Get current page for pagination
+		$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+		if (!$paged && get_query_var('page')) {
+			$paged = get_query_var('page');
+		}
+
+		// Fix for when using page parameters with query string
+		if (!$paged && isset($_GET['paged'])) {
+			$paged = intval($_GET['paged']);
 		}
 
 		// Get navigators
-		$navigators = $this->get_navigators($atts);
+		$args = array(
+			'post_type'      => 'trek-navigator',
+			'posts_per_page' => $atts['posts_per_page'],
+			'paged'          => $paged,
+			'post_status'    => 'publish',
+		);
+
+		// Set ordering based on layout
+		if ($atts['layout'] === 'row') {
+			$args['orderby'] = 'date';
+			$args['order'] = 'DESC';
+		} else {
+			// Handle multi-parameter orderby
+			if (strpos($atts['orderby'], ' ') !== false) {
+				$orderby_parts = explode(' ', $atts['orderby']);
+				$orderby_array = array();
+				foreach ($orderby_parts as $part) {
+					$orderby_array[$part] = $atts['order'];
+				}
+				$args['orderby'] = $orderby_array;
+			} else {
+				$args['orderby'] = $atts['orderby'];
+				$args['order'] = $atts['order'];
+			}
+		}
+
+		// Add filtering options to query args
+		if (!empty($atts['category'])) {
+			if (is_numeric($atts['category'])) {
+				$args['cat'] = intval($atts['category']);
+			} else {
+				$args['category_name'] = $atts['category'];
+			}
+		}
+
+		if (!empty($atts['tag'])) {
+			if (is_numeric($atts['tag'])) {
+				$args['tag_id'] = intval($atts['tag']);
+			} else {
+				$args['tag'] = $atts['tag'];
+			}
+		}
+
+		if (!empty($atts['include'])) {
+			$args['post__in'] = array_map('intval', explode(',', $atts['include']));
+		}
+
+		if (!empty($atts['exclude'])) {
+			$args['post__not_in'] = array_map('intval', explode(',', $atts['exclude']));
+		}
+
+		if ($atts['offset'] > 0) {
+			if ($paged > 1 && $atts['pagination']) {
+				$args['offset'] = $atts['offset'] + (($paged - 1) * $atts['posts_per_page']);
+			} else {
+				$args['offset'] = $atts['offset'];
+			}
+		}
+
+		$navigators = new WP_Query($args);
 
 		// Check if any navigators exist
 		if ($navigators && $navigators->have_posts()) {
@@ -136,7 +207,7 @@ class Trek_Navigators_Shortcodes {
 			}
 
 			// Add single row class if enabled
-			if ($atts['layout'] === 'row' || filter_var($atts['single_row'], FILTER_VALIDATE_BOOLEAN)) {
+			if ($atts['layout'] === 'row' || $atts['single_row']) {
 				$container_class .= ' single-row-display';
 			}
 
@@ -145,8 +216,21 @@ class Trek_Navigators_Shortcodes {
 				$container_class .= ' ' . esc_attr($atts['class']);
 			}
 
-			// Output container
-			echo '<div class="' . esc_attr($container_class) . '" data-columns="' . esc_attr($atts['columns']) . '">';
+// Output container
+// Prepare shortcode attributes for AJAX pagination
+			$ajax_data = json_encode(array(
+				'display_type' => $atts['display_type'],
+				'columns' => $atts['columns'],
+				'posts_per_page' => $atts['posts_per_page'],
+				'pagination' => $atts['pagination'],
+				'layout' => $atts['layout'],
+				'orderby' => $atts['orderby'],
+				'order' => $atts['order'],
+				'show_title' => $atts['show_title'],
+				'image_size' => $atts['image_size'],
+				'link_target' => $atts['link_target'],
+			));
+			echo '<div class="' . esc_attr($container_class) . '" data-columns="' . esc_attr($atts['columns']) . '" data-shortcode=\'' . $ajax_data . '\'>';
 			echo '<div class="trek-navigators-grid">';
 
 			while ($navigators->have_posts()) {
@@ -200,49 +284,46 @@ class Trek_Navigators_Shortcodes {
 			// Close grid
 			echo '</div>';
 
-			// ENHANCED PAGINATION: Added temporary query storage and restoration to fix pagination
-			// on custom pages using the shortcode
+			// IMPROVED PAGINATION: Updated to work with query string pagination
 			if ($atts['pagination'] && $navigators->max_num_pages > 1) {
-				global $wp_query;
+				// Get current URL
+				$current_url = home_url( $_SERVER['REQUEST_URI'] );
 
-				// Get the current page - check both query vars
-				$current_page = get_query_var('paged') ? get_query_var('paged') : 1;
-				if (!$current_page && get_query_var('page')) {
-					$current_page = get_query_var('page');
+				// Determine if we should use query parameters
+				$use_query_params = strpos($_SERVER['REQUEST_URI'], '?') !== false;
+
+				// Create base URL for pagination
+				if ($use_query_params) {
+					// Remove existing paged parameter if it exists
+					$base_url = remove_query_arg('paged', $current_url);
+					// Add paged parameter
+					$format = '&paged=%#%';
+					$base = $base_url . $format;
+				} else {
+					// Use clean URL format
+					$base_url = strtok($current_url, '?');
+					// Remove any existing pagination
+					$base_url = preg_replace('/\/page\/\d+\/?/', '/', $base_url);
+					// Ensure trailing slash
+					$base_url = trailingslashit($base_url);
+
+					$base = $base_url . 'page/%#%/';
 				}
-
-				// Store the original query to restore later
-				$temp_query = $wp_query;
-
-				// Set our custom query temporarily to generate proper pagination
-				$wp_query = $navigators;
-
-				// Get the current URL path for proper base URL
-				$current_url = home_url(add_query_arg(array(), $wp_query->request));
-				$base_url = trailingslashit(get_pagenum_link(1));
-
-				// Remove any existing pagination from the base URL
-				$base_url = preg_replace('/page\/[0-9]+\//', '', $base_url);
 
 				echo '<div class="trek-navigators-pagination">';
 				echo paginate_links(array(
-					'base'         => $base_url . 'page/%#%/',
-					'format'       => '',
-					'current'      => max(1, $current_page),
-					'total'        => $navigators->max_num_pages,
-					'prev_text'    => '<< Previous',
-					'next_text'    => 'Next >>',
-					'type'         => 'plain',
-					'end_size'     => 2,
-					'mid_size'     => 1,
-					'show_all'     => false,
-					'add_args'     => false,
-					'add_fragment' => ''
+					'base'      => $base,
+					'format'    => $use_query_params ? '' : '',
+					'current'   => max(1, $paged),
+					'total'     => $navigators->max_num_pages,
+					'prev_text' => '<< Previous',
+					'next_text' => 'Next >>',
+					'type'      => 'plain',
+					'end_size'  => 2,
+					'mid_size'  => 1,
+					'add_args'  => false
 				));
 				echo '</div>';
-
-				// Restore the original query
-				$wp_query = $temp_query;
 			}
 
 			echo '</div>'; // Close container
@@ -258,9 +339,9 @@ class Trek_Navigators_Shortcodes {
 		$output = ob_get_clean();
 
 		// Cache the output if caching is enabled
-		if ($atts['cache']) {
-			set_transient($cache_key, $output, HOUR_IN_SECONDS);
-		}
+		// if ($atts['cache']) {
+		//     set_transient($cache_key, $output, HOUR_IN_SECONDS);
+		// }
 
 		return $output;
 	}
@@ -399,7 +480,7 @@ class Trek_Navigators_Shortcodes {
 	 * @param array $atts Query parameters.
 	 * @return WP_Query Trek Navigators query.
 	 */
-	private function get_navigators($atts) {
+	public function get_navigators($atts) {
 		// Get current page for pagination - check both query vars
 		$paged = get_query_var('paged') ? get_query_var('paged') : 1;
 		if (!$paged && get_query_var('page')) {
